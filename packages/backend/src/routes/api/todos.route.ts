@@ -1,9 +1,9 @@
-import { Router } from 'express';
+// import { Router } from 'express';
 
-import todoController from '../../controllers/todo.controller';
+// import todoController from '../../controllers/todo.controller';
 
-const todosRouter: Router = Router();
+// const todosRouter: Router = Router();
 
-todosRouter.get('/all', todoController.getAllTodo.bind(todoController));
+// todosRouter.get('/all', todoController.getAllTodo.bind(todoController));
 
-export default todosRouter;
+// export default todosRouter;
