@@ -1,9 +1,13 @@
-// import { Router } from 'express';
+import { Router } from "express";
+import todoController from "@/controllers/todo.controller";
+import { validateTodo } from "@/middlewares/validate.todo";
 
-// import todoController from '../../controllers/todo.controller';
+const todosRouter: Router = Router()
 
-// const todosRouter: Router = Router();
+todosRouter.get('/getAllTodos', todoController.getAllTodos.bind(todoController));
+todosRouter.get('/getTodo/:id', todoController.getTodoById.bind(todoController));
+todosRouter.post('/createTodo', validateTodo, todoController.makeTodo.bind(todoController));
+todosRouter.put('/updateTodo/:id', validateTodo, todoController.updatesTodo.bind(todoController));
+todosRouter.delete('deleteTodo/:id', todoController.deleteTodo.bind(todoController));
 
-// todosRouter.get('/all', todoController.getAllTodo.bind(todoController));
-
-// export default todosRouter;
+export default todosRouter

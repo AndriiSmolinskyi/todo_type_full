@@ -87,5 +87,5 @@ export class TodoController{
 
 }
 
-const todoConroller = new TodoController(new TodoService())
-export default todoConroller
+const todoController = new TodoController(new TodoService())
+export default todoController
