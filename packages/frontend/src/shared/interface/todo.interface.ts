@@ -15,3 +15,14 @@ export interface TodoUpdate {
     body?: string;
     completed?: boolean;
 }
+
+export interface TodoStore {
+    todos: Todo[];
+    isLoading: boolean;
+    error: string | null;
+    fetchTodos: () => Promise<void>;
+    addTodo: (todo: Omit<Todo, 'id'>) => Promise<void>;
+    updateTodo: (id: number, todo: Omit<Todo, 'id'>) => Promise<void>;
+    deleteTodo: (id: number) => Promise<void>;
+  }
+  
