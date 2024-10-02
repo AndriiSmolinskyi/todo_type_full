@@ -16,18 +16,9 @@ export class TodoController{
 
 	async getTodoById(req: Request, res: Response): Promise<void>{
 		const id = Number(req.params.id)
-		if(isNaN(id)){
-			res.status(400).json({message: 'Invalid ID'})
-			return
-		}
-
 		try {
 			const todo = await this.todoService.findById(id)
-			if(!todo){
-				res.status(404).json({message: 'Todo not found'})
-			} else{
-				res.json(todo)
-			}
+			res.json(todo)
 		} catch (error) {
 			res.status(500).json({ message: 'Error fetch todo' })
 		}
@@ -53,17 +44,9 @@ export class TodoController{
 		const id = Number(req.params.id)
 		const {title, body, completed} = req.body
 
-		if(isNaN(id)){
-			res.status(400).json({ message: 'Invalid ID' })
-		}
-
 		try {
 			const updatedTodo = await this.todoService.updateTodo(id, {title, body, completed})
-			if(!updatedTodo){
-				res.status(404).json({message: 'Todo not found'})
-			} else{
-				res.json(updatedTodo)
-			}
+			res.json(updatedTodo)
 		} catch (error) {
 			res.status(500).json({message: 'Error updating todo'})
 		}
@@ -71,11 +54,6 @@ export class TodoController{
 
 	async deleteTodo(req: Request, res: Response): Promise<void> {
 		const id = Number(req.params.id);
-	
-		if (isNaN(id)) {
-		  res.status(400).json({ message: 'Invalid ID' });
-		  return;
-		}
 	
 		try {
 		  await this.todoService.deleteTodo(id);
