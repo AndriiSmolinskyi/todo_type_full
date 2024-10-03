@@ -1,21 +1,17 @@
 import * as React from 'react';
-
-import Button from '~shared/components/button/button.component';
+import TodoModal from '~shared/components/todo/todo.modal/todo.modal';
 
 const App = (): React.ReactNode => {
-	const [count, setCount] = React.useState(0);
+	const [isModalOpen, setModalOpen] = React.useState(false);
 
-	const onIncrease = (): void => {
-		setCount((prev) => {
-			return prev + 1;
-		});
-	};
+	const openModal = () => setModalOpen(true);
+	const closeModal = () => setModalOpen(false);
 
 	return (
 		<>
 			<h1>Todo project</h1>
-			<p>{count}</p>
-			<Button text="Increase" onClick={onIncrease} />
+			<button onClick={openModal}>Create Todo</button>
+			<TodoModal isOpen={isModalOpen} onClose={closeModal} />
 		</>
 	);
 };

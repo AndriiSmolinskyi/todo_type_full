@@ -2,7 +2,7 @@ export interface Todo {
     id: number;
     title: string;
     body: string;
-    completed: boolean;
+    completed?: boolean; 
 }
 
 export interface TodoCreate {
@@ -24,5 +24,5 @@ export interface TodoStore {
     addTodo: (todo: Omit<Todo, 'id'>) => Promise<void>;
     updateTodo: (id: number, todo: Omit<Todo, 'id'>) => Promise<void>;
     deleteTodo: (id: number) => Promise<void>;
-  }
+}
   
