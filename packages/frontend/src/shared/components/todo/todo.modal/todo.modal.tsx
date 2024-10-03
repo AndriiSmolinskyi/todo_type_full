@@ -8,7 +8,7 @@ const TodoSchema = Yup.object().shape({
 	title: Yup.string()
 		.required('Title is required')
 		.min(5, 'Min 5 characters')
-		.max(50, 'Max 20 characters'),
+		.max(20, 'Max 20 characters'),
 	body: Yup.string()
 		.required('Body is required')
 		.min(10, 'Min 10 characters')
@@ -54,7 +54,9 @@ const TodoModal: React.FC<TodoModalProps> = ({ isOpen, onClose }) => {
 							) : null}
 						</div>
 						<button type="submit">Create</button>
-						<button type="button" onClick={onClose}>Close</button>
+						<button type="button" onClick={onClose}>
+							Close
+						</button>
 					</Form>
 				)}
 			</Formik>
@@ -62,4 +64,4 @@ const TodoModal: React.FC<TodoModalProps> = ({ isOpen, onClose }) => {
 	);
 };
 
-export default TodoModal
+export default TodoModal;
