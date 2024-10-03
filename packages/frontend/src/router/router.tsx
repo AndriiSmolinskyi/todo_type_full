@@ -1,11 +1,15 @@
 import * as React from 'react';
-import App from '~modules/app/app.module';
+import { Routes, Route } from 'react-router-dom';
+import TodoContainer from '~shared/components/todo/todo.container/todo.container';
+import TodoDetails from '~shared/components/todo/todo.details/todo.details';
 
-const Router: React.FunctionComponent = () => {
-	return (
-		// Implement Routes
-		<App />
-	);
+const AppRouter: React.FunctionComponent = () => {
+  return (
+    <Routes>
+      <Route path="/" element={<TodoContainer />} /> 
+      <Route path="/todos/:id" element={<TodoDetails />} />
+    </Routes>
+  );
 };
 
-export default Router;
+export default AppRouter;
