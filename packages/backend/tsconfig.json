@@ -1,5 +1,5 @@
 {
-	"typeRoots": ["@types/node", "./src/types"],
+	"typeRoots": ["@types/node", "./src/types", "./node_modules/@prisma/client"],
 	"compilerOptions": {
 		"strict": true,
 		"module": "CommonJS",

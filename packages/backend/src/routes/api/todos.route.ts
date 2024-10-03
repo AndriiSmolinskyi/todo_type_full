@@ -2,6 +2,7 @@ import { Router } from "express";
 import todoController from "@/controllers/todo.controller";
 import { validateTodo } from "@/middlewares/validate.todo";
 import { isExist } from "@/middlewares/isexist";
+
 const todosRouter: Router = Router()
 
 todosRouter.get('/getAllTodos', todoController.getAllTodos.bind(todoController));
