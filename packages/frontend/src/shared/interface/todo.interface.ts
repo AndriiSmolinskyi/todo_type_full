@@ -27,6 +27,11 @@ export interface TodoStore {
 }
 
 export interface TodoItemProps {
-    todo: Todo;
-    onAction: (id: number, action: 'toggle' | 'delete' | 'view', completed?: boolean) => void;
+	todo: Todo;
+	onAction: (
+		id: number,
+		action: 'toggle' | 'delete' | 'view',
+		completed?: boolean,
+	) => void;
 }
+

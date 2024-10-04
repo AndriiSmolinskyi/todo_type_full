@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import todoService from '~shared/services/todo.service';
 import { Todo, TodoStore } from '~shared/interface/todo.interface';
+import { TodoCreate } from '~shared/interface/todo.interface';
 
 export const useTodoStore = create<TodoStore>((set) => ({
 	todos: [],
@@ -13,14 +14,14 @@ export const useTodoStore = create<TodoStore>((set) => ({
 		set({ todos, isLoading: false });
 	},
 
-	addTodo: async (todo) => {
+	addTodo: async (todo: TodoCreate) => {
 		set({ isLoading: true, error: null });
 		const newTodo = await todoService.createTodo(todo);
 		set((state) => ({
-			todos: [...state.todos, newTodo],
-			isLoading: false,
+		  todos: [...state.todos, newTodo],
+		  isLoading: false,
 		}));
-	},
+	  },
 
 	updateTodo: async (id, todo) => {
 		set({ isLoading: true, error: null });
