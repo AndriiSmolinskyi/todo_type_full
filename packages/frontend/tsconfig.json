@@ -42,6 +42,12 @@
 			],
 			"~/*": [
 				"src/*"
+			],
+			"~services/*": [
+				"src/shared/services/*"
+			],
+			"~keys/*": [
+				"src/shared/keys/*"
 			]
 		}
 	},
