@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTodoStore } from '~store/todo.store';
-import TodoEditModal from './todo.detail.edit/todo.detail.edit';
+import TodoEditModal from '../todo.modal/todo.detail.edit';
+import ToggleButton from '~shared/components/toggle.button/toggle.button';
+import * as styles from './todo.details.style'
+
 
 const TodoDetails: React.FC = () => {
 	const { id } = useParams<{ id: string }>();
@@ -33,20 +36,29 @@ const TodoDetails: React.FC = () => {
 	if (!selectedTodo) return <p>Todo not found!</p>;
 
 	return (
-		<div>
-			<h1>{selectedTodo.title}</h1>
-			<p>{selectedTodo.body}</p>
-			<label>
-				Completed:
-				<input
-					type="checkbox"
+		<div className={styles.todoDetails}>
+			<h2 className={styles.todoDetailsTitle}>{selectedTodo.title}</h2>
+
+			<div className={styles.todoDetailsDesc}>
+				<h3>Description</h3>
+				<p>{selectedTodo.body}</p>
+			</div>
+
+			<div className={styles.todoDetailsComp}>
+				<h3>Completed</h3>
+				<ToggleButton
 					checked={selectedTodo.completed}
 					onChange={toggleCompleted}
 				/>
-			</label>
-			<button onClick={openEditModal}>Edit</button>
-			<button onClick={deleteCurrentTodo}>Delete</button>
-			<button onClick={() => navigate('/')}>Back</button>
+			</div>
+
+			<div className={styles.todoDetailsButtonsBlock}>
+				<button className={styles.todoDetailsButtons} onClick={openEditModal}>Edit</button>
+				<button className={styles.todoDetailsButtons} onClick={deleteCurrentTodo}>Delete</button>
+				<button className={styles.todoDetailsButtons} onClick={() => navigate('/')}>Back</button>
+			</div>
+
+			
 
 			{isEditOpen && (
 				<TodoEditModal

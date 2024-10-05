@@ -1,6 +1,6 @@
 import React from 'react';
 import { TodoItemProps } from '~shared/interface/todo.interface';
-import * as styles from './todo.container.desktop.style';
+import * as styles from './todo.desktop.style';
 import { todoButtons } from '../../todo.buttons.style';
 import ToggleButton from '~shared/components/toggle.button/toggle.button';
 

@@ -9,6 +9,12 @@ export const ContainerBtnBlock = css`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+
+	@media screen and (max-width: 550px) {
+		flex-direction: column;
+		gap: 25px;
+		align-items: flex-start;
+	}
 `;
 
 export const ContainerCreateTodo = css`

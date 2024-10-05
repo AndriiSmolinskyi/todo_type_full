@@ -1,7 +1,7 @@
 import React from 'react';
 import TodoItem from '../../todo.item/todo.item';
 import { TodoItemProps } from '~shared/interface/todo.interface';
-import * as styles from './todo.container.desktop.style';
+import * as styles from './todo.desktop.style';
 import TodoItemDesktop from './todo.item.desktop';
 
 const TodoContainerDesktop: React.FC<{

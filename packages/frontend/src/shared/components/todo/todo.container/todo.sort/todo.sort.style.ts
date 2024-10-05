@@ -7,7 +7,7 @@ export const TodoSortBlock = css`
 
 export const TodoSortBtn = css`
     height: 30px;
-    padding: 0px 5px;
+    padding: 0px 15px;
     border-radius: 0;
     border: 1px solid ${colors.darkGrey};
     background-color: transparent;

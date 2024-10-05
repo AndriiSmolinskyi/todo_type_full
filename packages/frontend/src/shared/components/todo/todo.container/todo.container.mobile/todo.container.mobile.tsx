@@ -1,15 +1,16 @@
 import React from 'react';
-import TodoItem from '../../todo.item/todo.item';
 import { TodoItemProps } from '~shared/interface/todo.interface'; 
+import TodoMobileItem from './todo.mobile.item';
+import * as styles from './todo.mobile.style'
 
 const TodoContainerMobile: React.FC<{ 
   todos: TodoItemProps['todo'][]; 
   handleAction: TodoItemProps['onAction']; 
 }> = ({ todos, handleAction }) => {
   return (
-    <div>
+    <div className={styles.ContaineMobileStyles}>
       {todos.map((todo) => (
-        <TodoItem key={todo.id} todo={todo} onAction={handleAction} />
+        <TodoMobileItem key={todo.id} todo={todo} onAction={handleAction} />
       ))}
     </div>
   );

@@ -3,13 +3,12 @@ import { useMediaQuery } from 'react-responsive';
 import { useTodoStore } from '~store/todo.store';
 import { useNavigate } from 'react-router-dom';
 import TodoContainerDesktop from './todo.container.desktop/todo.container.desktop';
-import TodoContainerTablet from './todo.container.tablet/todo.container.mobile';
+import TodoContainerTablet from './todo.container.tablet/todo.container.tablet';
 import TodoContainerMobile from './todo.container.mobile/todo.container.mobile';
 import TodoModal from '../todo.modal/todo.modal';
 import TodoSearch from './todo.search/todo.search';
 import TodoSort from './todo.sort/todo.sort';
-import * as styles from './todo.container.style'
-
+import * as styles from './todo.container.style';
 
 const TodoContainer: React.FC = () => {
 	const { todos, fetchTodos, deleteTodo, updateTodo } = useTodoStore();
@@ -32,9 +31,9 @@ const TodoContainer: React.FC = () => {
 		if (action === 'view') navigate(`/todos/${id}`);
 	};
 
-	const isDesktop = useMediaQuery({ minWidth: 921 });
-	const isTablet = useMediaQuery({ minWidth: 481, maxWidth: 920 });
-	const isMobile = useMediaQuery({ maxWidth: 480 });
+	const isDesktop = useMediaQuery({ minWidth: 1024 });
+	const isTablet = useMediaQuery({ minWidth: 581, maxWidth: 1023 });
+	const isMobile = useMediaQuery({ maxWidth: 580 });
 
 	let TodoListComponent;
 
@@ -54,13 +53,17 @@ const TodoContainer: React.FC = () => {
 
 	return (
 		<div className={styles.ContrainerStyle}>
-
 			<div className={styles.ContainerBtnBlock}>
-        <TodoSort></TodoSort>
-        <TodoSearch></TodoSearch>
+				<TodoSort></TodoSort>
+				<TodoSearch></TodoSearch>
 			</div>
 
-			<button className={styles.ContainerCreateTodo} onClick={toggleModal}>Create Todo</button>
+			<button
+				className={styles.ContainerCreateTodo}
+				onClick={toggleModal}
+			>
+				Create Todo
+			</button>
 
 			{todos.length === 0 ? (
 				<p>Create your first task</p>
