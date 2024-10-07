@@ -7,10 +7,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id                   Int       @id @default(autoincrement())
+  username             String
+  email                String    @unique
+  password             String
+  verified             Boolean   @default(false)
+  verificationCode     String?   // Код верифікації
+  resetPasswordCode    String?   // Код для відновлення пароля
+  resetPasswordExpires DateTime? // Час закінчення дії коду відновлення
+  sessionToken         String?   // Токен сесії
+  todos                Todo[]
+}
+
 model Todo {
   id        Int      @id @default(autoincrement())
   title     String
   body      String
   completed Boolean   @default(false)
+  private   Boolean   @default(false)
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id])
   createdAt DateTime  @default(now())
 }

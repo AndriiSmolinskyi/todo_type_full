@@ -1,11 +1,12 @@
 import { PrismaClient, Todo } from '@prisma/client';
 
-const prisma = new PrismaClient(); //взаємодія з бд
+const prisma = new PrismaClient();
 
 interface CreateTodoInput {
-	title: string; 
-	body: string;  
-}
+	title: string;
+	body: string;
+	userId: number;
+  }
 
 interface UpdateTodoInput {
 	title?: string;

@@ -16,8 +16,8 @@ export class TodoController {
 	}
 
 	async makeTodo(req: Request, res: Response): Promise<void> {
-		const { title, body } = req.body;
-		const newTodo = await this.todoService.createTodo({ title, body });
+		const { userId, title, body } = req.body;
+		const newTodo = await this.todoService.createTodo({ userId, title, body });
 		res.status(201).json(newTodo);
 	}
 

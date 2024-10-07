@@ -31,7 +31,6 @@ todosRouter.put(
 	tryCatchMiddleware(todoController.updatesTodo.bind(todoController)),
 );
 
-// Видалення Todo
 todosRouter.delete(
 	'/deleteTodo/:id',
 	isExist(todoController.todoService.findById.bind(todoController)),
