@@ -3,7 +3,7 @@ import userController from '@/controllers/user.controller';
 import { validatorMiddleware } from '@/middlewares/validate';
 import { authMiddleware } from '@/middlewares/auth.middleware';
 import { tryCatchMiddleware } from '@/middlewares/trycatch';
-import * as userValidationSchema from '@/validation/validation.user'; // Змінено ім'я на userValidationSchema
+import * as userValidationSchema from '@/validation/validation.user'; 
 
 const usersRouter: Router = Router();
 
