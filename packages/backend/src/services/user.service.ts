@@ -91,16 +91,13 @@ class UserService {
 			return null;
 		}
 
-		const sessionToken = crypto.randomBytes(40).toString('hex');
-
+		const newSessionToken = crypto.randomBytes(32).toString('hex');
 		await prisma.user.update({
-			where: { id: user.id },
-			data: {
-				sessionToken,
-			},
+			where: { email },
+			data: { sessionToken: newSessionToken },
 		});
 
-		return sessionToken;
+		return newSessionToken;
 	}
 
 	async logout(userId: number): Promise<void> {

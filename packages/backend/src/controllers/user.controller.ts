@@ -65,16 +65,23 @@ class UserController {
 	async login(req: Request, res: Response): Promise<void> {
 		const { email, password } = req.body;
 
-		const sessionToken = await this.userService.login(email, password);
+		try {
+			const sessionToken = await this.userService.login(email, password);
 
-		if (!sessionToken) {
-			res.status(400).json({
-				message: 'Invalid credentials or email not verified',
+			if (!sessionToken) {
+				res.status(400).json({
+					message: 'Invalid credentials or email not verified',
+				});
+				return;
+			}
+
+			res.json({ sessionToken });
+		} catch (error) {
+			res.status(500).json({
+				message: 'Login failed',
+				error: (error as Error).message,
 			});
-			return;
 		}
-
-		res.json({ sessionToken });
 	}
 
 	async logout(req: AuthRequest, res: Response): Promise<void> {
