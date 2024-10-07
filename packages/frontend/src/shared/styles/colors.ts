@@ -6,4 +6,5 @@ export const colors = Object.freeze({
 	black: '#000000',
 	lightGrey: '#dfdfdf',
 	green: '#4CAF50',
+	toggleGrey: '#ccc'
 });

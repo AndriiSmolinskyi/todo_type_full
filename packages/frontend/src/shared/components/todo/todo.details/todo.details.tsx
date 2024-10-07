@@ -4,7 +4,7 @@ import { useTodoStore } from '~store/todo.store';
 import TodoEditModal from '../todo.modal/todo.detail.edit';
 import ToggleButton from '~shared/components/toggle.button/toggle.button';
 import * as styles from './todo.details.style'
-
+import { ROUTER_KEYS } from '~router/router.keys';
 
 const TodoDetails: React.FC = () => {
 	const { id } = useParams<{ id: string }>();
@@ -29,7 +29,7 @@ const TodoDetails: React.FC = () => {
 	const deleteCurrentTodo = async () => {
 		if (selectedTodo) {
 			await deleteTodo(selectedTodo.id);
-			navigate('/');
+			navigate(ROUTER_KEYS.HOME);
 		}
 	};
 
@@ -55,7 +55,7 @@ const TodoDetails: React.FC = () => {
 			<div className={styles.todoDetailsButtonsBlock}>
 				<button className={styles.todoDetailsButtons} onClick={openEditModal}>Edit</button>
 				<button className={styles.todoDetailsButtons} onClick={deleteCurrentTodo}>Delete</button>
-				<button className={styles.todoDetailsButtons} onClick={() => navigate('/')}>Back</button>
+				<button className={styles.todoDetailsButtons} onClick={() => navigate(ROUTER_KEYS.HOME)}>Back</button>
 			</div>
 
 			

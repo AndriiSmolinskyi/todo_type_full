@@ -8,7 +8,7 @@ export const searchContainer = css`
   padding: 5px 10px;
   border-radius: 20px;
   height: 30px;
-  background-color: #fff;
+  background-color: ${colors.white};
   max-width: 215px;
 `;
 

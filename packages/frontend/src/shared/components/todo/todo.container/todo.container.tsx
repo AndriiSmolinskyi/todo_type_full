@@ -9,6 +9,7 @@ import TodoModal from '../todo.modal/todo.modal';
 import TodoSearch from './todo.search/todo.search';
 import TodoSort from './todo.sort/todo.sort';
 import * as styles from './todo.container.style';
+import { ROUTER_KEYS } from '~router/router.keys';
 
 const TodoContainer: React.FC = () => {
 	const { todos, fetchTodos, deleteTodo, updateTodo } = useTodoStore();
@@ -21,14 +22,14 @@ const TodoContainer: React.FC = () => {
 
 	const toggleModal = () => setModalOpen(!isModalOpen);
 
-	const handleAction = (
-		id: number,
-		action: 'toggle' | 'delete' | 'view',
-		completed?: boolean,
-	) => {
-		if (action === 'toggle') updateTodo(id, { completed: !completed });
-		if (action === 'delete') deleteTodo(id);
-		if (action === 'view') navigate(`/todos/${id}`);
+	const actionHandlers = {
+		toggle: (id: number, completed?: boolean) => updateTodo(id, { completed: !completed }),
+		delete: (id: number) => deleteTodo(id),
+		view: (id: number) => navigate(ROUTER_KEYS.TODOS.replace(':id', id.toString())),
+	};
+
+	const handleAction = (id: number, action: 'toggle' | 'delete' | 'view', completed?: boolean) => {
+		actionHandlers[action](id, completed);
 	};
 
 	const isDesktop = useMediaQuery({ minWidth: 1024 });

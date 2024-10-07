@@ -20,7 +20,7 @@ export const switchStyles = css`
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
+    background-color: ${colors.toggleGrey};
     transition: 0.4s;
     border-radius: 34px;
   }
