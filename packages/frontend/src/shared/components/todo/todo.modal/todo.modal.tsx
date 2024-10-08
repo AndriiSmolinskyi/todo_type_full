@@ -13,12 +13,13 @@ interface TodoModalProps {
 	onClose: () => void;
 }
 
-
-
 const TodoModal: React.FC<TodoModalProps> = ({ isOpen, onClose }) => {
 	const { addTodo } = useTodoStore();
 
-	const handleSubmit = async (values: TodoCreate, { resetForm }: { resetForm: () => void }) => {
+	const handleSubmit = async (
+		values: TodoCreate,
+		{ resetForm }: { resetForm: () => void },
+	) => {
 		await addTodo(values);
 		resetForm();
 		onClose();
@@ -26,7 +27,7 @@ const TodoModal: React.FC<TodoModalProps> = ({ isOpen, onClose }) => {
 
 	const INITIAL_VALUES = {
 		title: '',
-		body: ''
+		body: '',
 	};
 
 	if (!isOpen) return null;
@@ -47,26 +48,29 @@ const TodoModal: React.FC<TodoModalProps> = ({ isOpen, onClose }) => {
 				>
 					{({ errors, touched }) => (
 						<Form className={styles.formBlock}>
-						<TodoInput
-							name="title"
-							label="Title"
-							errors={errors.title}
-							touched={touched.title}
-							id="title"
-						/>
-					
-						<TodoInput
-							name="body"
-							label="Body"
-							errors={errors.body}
-							touched={touched.body}
-							id="body"
-						/>
-					
-						<button type="submit" className={styles.modalFormSubmit}>
-							Create
-						</button>
-					</Form>
+							<TodoInput
+								name="title"
+								label="Title"
+								errors={errors.title}
+								touched={touched.title}
+								id="title"
+							/>
+
+							<TodoInput
+								name="body"
+								label="Body"
+								errors={errors.body}
+								touched={touched.body}
+								id="body"
+							/>
+
+							<button
+								type="submit"
+								className={styles.modalFormSubmit}
+							>
+								Create
+							</button>
+						</Form>
 					)}
 				</Formik>
 			</div>

@@ -19,3 +19,8 @@ export interface AuthResetPasswordData {
 	code: string;
 	newPassword: string;
 }
+
+export interface PasswordChangeModalProps {
+	isOpen: boolean;
+	onClose: () => void;
+}

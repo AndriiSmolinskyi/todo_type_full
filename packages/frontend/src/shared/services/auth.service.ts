@@ -36,14 +36,15 @@ class AuthService extends HttpService {
     return this.post<null, AuthResetPasswordData>('users/reset-password', data);
   }
 
-  public async updatePassword(oldPassword: string, newPassword: string) {
-    return this.put<null, { oldPassword: string; password: string }>('users/update', { oldPassword, password: newPassword });
+  public async updatePassword(newPassword: string) {
+    return this.put<null, { password: string }>('users/update', { password: newPassword });
   }
 
   public async logout() {
     localStorage.removeItem(STORAGE_KEYS.TOKEN);
     return this.post<null, {}>('users/logout', {});
   }
+
 }
 
 export default new AuthService();
