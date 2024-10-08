@@ -6,19 +6,25 @@ import { useAuthStore } from '~store/auth.store';
 import { useNavigate } from 'react-router-dom';
 import { ROUTER_KEYS } from '~router/router.keys';
 import { handleSubmitWithErrors } from '~shared/utils/handel.submit';
+import * as styles from '../auth.style';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 const RegisterForm: React.FC = () => {
 	const { register } = useAuthStore();
 	const navigate = useNavigate();
 
-	const handleRegisterSubmit = (values: { username: string; email: string; password: string }) => {
+	const handleRegisterSubmit = (values: {
+		username: string;
+		email: string;
+		password: string;
+	}) => {
 		handleSubmitWithErrors(
-		  () => register(values.username, values.email, values.password),
-		  () => navigate(ROUTER_KEYS.VERIFY),
-		  'Registration'
+			() => register(values.username, values.email, values.password),
+			() => navigate(ROUTER_KEYS.VERIFY),
+			'Registration',
 		);
 	};
-	
 
 	return (
 		<Formik
@@ -27,7 +33,7 @@ const RegisterForm: React.FC = () => {
 			onSubmit={handleRegisterSubmit}
 		>
 			{({ errors, touched }) => (
-				<Form>
+				<Form className={styles.starBlock}>
 					<TodoInput
 						name="username"
 						label="Username"
@@ -47,7 +53,14 @@ const RegisterForm: React.FC = () => {
 						errors={errors.password}
 						touched={touched.password}
 					/>
-					<button type="submit">Register</button>
+					<button type="submit" className={styles.authBtn}>
+						Register
+					</button>
+					<FontAwesomeIcon
+						icon={faXmark}
+						onClick={() => navigate(ROUTER_KEYS.HOME)}
+						className={styles.authExit}
+					/>
 				</Form>
 			)}
 		</Formik>

@@ -6,12 +6,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import TodoInput from './todo.input';
 import { PasswordChangeSchema } from './todo.schemes/password.change.schema';
-import { PasswordChangeModalProps } from '~shared/interface/auth.interface';
 
-const PasswordChangeModal: React.FC<PasswordChangeModalProps> = ({
-	isOpen,
-	onClose,
-}) => {
+const PasswordChangeModal: React.FC<{
+	isOpen: boolean;
+	onClose: () => void;
+}> = ({ isOpen, onClose }) => {
 	const { updatePassword } = useAuthStore();
 
 	const handleSubmit = async (

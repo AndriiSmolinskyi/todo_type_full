@@ -6,6 +6,9 @@ import { useAuthStore } from '~store/auth.store';
 import { useNavigate } from 'react-router-dom';
 import { ROUTER_KEYS } from '~router/router.keys';
 import { handleSubmitWithErrors } from '~shared/utils/handel.submit';
+import * as styles from '../auth.style';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 const Verify: React.FC = () => {
 	const { verifyEmail } = useAuthStore();
@@ -26,7 +29,7 @@ const Verify: React.FC = () => {
 			onSubmit={handleVerifySubmit}
 		>
 			{({ errors, touched }) => (
-				<Form>
+				<Form className={styles.starBlock}>
 					<TodoInput
 						name="email"
 						label="Email"
@@ -39,7 +42,14 @@ const Verify: React.FC = () => {
 						errors={errors.code}
 						touched={touched.code}
 					/>
-					<button type="submit">Verify</button>
+					<button type="submit" className={styles.authBtn}>
+						Verify
+					</button>
+					<FontAwesomeIcon
+						icon={faXmark}
+						onClick={() => navigate(ROUTER_KEYS.HOME)}
+						className={styles.authExit}
+					/>
 				</Form>
 			)}
 		</Formik>
