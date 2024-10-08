@@ -3,12 +3,16 @@ import { Formik, Form } from 'formik';
 import { RegisterSchema } from '../auth.validation';
 import TodoInput from '~shared/components/todo/todo.modal/todo.input';
 import { useAuthStore } from '~store/auth.store';
+import { useNavigate } from 'react-router-dom';
+import { ROUTER_KEYS } from '~router/router.keys';
 
 const RegisterForm: React.FC = () => {
   const { register } = useAuthStore();
+  const navigate = useNavigate();
 
   const handleRegisterSubmit = async (values: { username: string; email: string; password: string }) => {
     await register(values.username, values.email, values.password);
+    navigate(ROUTER_KEYS.VERIFY)
   };
 
   return (
