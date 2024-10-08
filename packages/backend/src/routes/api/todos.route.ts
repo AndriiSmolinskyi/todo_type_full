@@ -3,38 +3,44 @@ import todoController from '@/controllers/todo.controller';
 import { validatorMiddleware } from '@/middlewares/validate';
 import { isExist } from '@/middlewares/isexist';
 import { tryCatchMiddleware } from '@/middlewares/trycatch';
-import { createTodoSchema,updateTodoSchema } from '@/validation/validation.todo';
+import {
+	createTodoSchema,
+	updateTodoSchema,
+} from '@/validation/validation.todo';
+import { authMiddleware } from '@/middlewares/auth.middleware';
 
 const todosRouter: Router = Router();
 
 todosRouter.get(
 	'/getAllTodos',
+	authMiddleware, 
 	tryCatchMiddleware(todoController.getAllTodos.bind(todoController)),
 );
 
 todosRouter.get(
 	'/getTodo/:id',
-	isExist(todoController.todoService.findById.bind(todoController)),
+	authMiddleware,
 	tryCatchMiddleware(todoController.getTodoById.bind(todoController)),
 );
 
+
 todosRouter.post(
 	'/createTodo',
+	authMiddleware,
 	validatorMiddleware(createTodoSchema),
 	tryCatchMiddleware(todoController.makeTodo.bind(todoController)),
 );
 
 todosRouter.put(
 	'/updateTodo/:id',
-	isExist(todoController.todoService.findById.bind(todoController)),
+	authMiddleware,
 	validatorMiddleware(updateTodoSchema),
 	tryCatchMiddleware(todoController.updatesTodo.bind(todoController)),
 );
 
-// Видалення Todo
 todosRouter.delete(
 	'/deleteTodo/:id',
-	isExist(todoController.todoService.findById.bind(todoController)),
+	authMiddleware,
 	tryCatchMiddleware(todoController.deleteTodo.bind(todoController)),
 );
 

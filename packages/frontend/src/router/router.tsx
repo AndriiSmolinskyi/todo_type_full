@@ -1,22 +1,11 @@
 import * as React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import TodoContainer from '~shared/components/todo/todo.container/todo.container';
-import TodoDetails from '~shared/components/todo/todo.details/todo.details';
-import { WrapperStyles } from './wrapper.styles';
-import Header from '~shared/components/header/header';
-import { ROUTER_KEYS } from './router.keys';
+import App from '~modules/app/app.module';
 
-const AppRouter: React.FunctionComponent = () => {
-
+const Router: React.FunctionComponent = () => {
 	return (
-		<div className={WrapperStyles}>
-			<Header></Header>
-			<Routes>
-				<Route path={ROUTER_KEYS.HOME} element={<TodoContainer />} />
-				<Route path={ROUTER_KEYS.TODOS} element={<TodoDetails />} />
-			</Routes>
-		</div>
+		// Implement Routes
+		<App />
 	);
 };
 
-export default AppRouter;
+export default Router;
