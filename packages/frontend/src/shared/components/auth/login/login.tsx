@@ -5,23 +5,18 @@ import TodoInput from '../../todo/todo.modal/todo.input';
 import { useAuthStore } from '~store/auth.store';
 import { useNavigate } from 'react-router-dom';
 import { ROUTER_KEYS } from '~router/router.keys';
+import { handleSubmitWithErrors } from '~shared/utils/handel.submit';
 
 const LoginForm: React.FC = () => {
 	const { login } = useAuthStore();
 	const navigate = useNavigate();
 
-	const handleLoginSubmit = async (values: {
-		email: string;
-		password: string;
-	}) => {
-		try {
-			await login(values.email, values.password);
-			navigate(ROUTER_KEYS.HOME);
-		} catch (error: any) {
-			const errorMessage =
-				error.response?.data?.message || 'Unknown error occurred';
-			alert(`Login error: ${errorMessage}`);
-		}
+	const handleLoginSubmit = (values: { email: string; password: string }) => {
+		handleSubmitWithErrors(
+			() => login(values.email, values.password),
+			() => navigate(ROUTER_KEYS.HOME),
+			'Login',
+		);
 	};
 
 	return (

@@ -5,25 +5,20 @@ import TodoInput from '~shared/components/todo/todo.modal/todo.input';
 import { useAuthStore } from '~store/auth.store';
 import { useNavigate } from 'react-router-dom';
 import { ROUTER_KEYS } from '~router/router.keys';
+import { handleSubmitWithErrors } from '~shared/utils/handel.submit';
 
 const RegisterForm: React.FC = () => {
 	const { register } = useAuthStore();
 	const navigate = useNavigate();
 
-	const handleRegisterSubmit = async (values: {
-		username: string;
-		email: string;
-		password: string;
-	}) => {
-		try {
-			await register(values.username, values.email, values.password);
-			navigate(ROUTER_KEYS.VERIFY);
-		} catch (error: any) {
-			const errorMessage =
-				error.response?.data?.message || 'Unknown error occurred';
-			alert(`Registration error: ${errorMessage}`);
-		}
+	const handleRegisterSubmit = (values: { username: string; email: string; password: string }) => {
+		handleSubmitWithErrors(
+		  () => register(values.username, values.email, values.password),
+		  () => navigate(ROUTER_KEYS.VERIFY),
+		  'Registration'
+		);
 	};
+	
 
 	return (
 		<Formik

@@ -31,6 +31,9 @@
 			],
 			"~interface/*": [
 				"src/shared/interface/*"
+			],
+			"~utils/*": [
+				"src/shared/utils/*"
 			]
 		},
 		"jsx": "react",

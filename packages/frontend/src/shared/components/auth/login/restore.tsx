@@ -4,24 +4,22 @@ import TodoInput from '~shared/components/todo/todo.modal/todo.input';
 import { useAuthStore } from '~store/auth.store';
 import { useNavigate } from 'react-router-dom';
 import { ROUTER_KEYS } from '~router/router.keys';
+import { handleSubmitWithErrors } from '~shared/utils/handel.submit';
 
 const RestorePassword: React.FC = () => {
 	const { resetPassword } = useAuthStore();
 	const navigate = useNavigate();
 
-	const handleResetSubmit = async (values: {
+	const handleResetSubmit = (values: {
 		email: string;
 		code: string;
 		newPassword: string;
 	}) => {
-		try {
-			await resetPassword(values.email, values.code, values.newPassword);
-			navigate(ROUTER_KEYS.LOGIN);
-		} catch (error: any) {
-			const errorMessage =
-				error.response?.data?.message || 'Unknown error occurred';
-			alert(`Reset password error: ${errorMessage}`);
-		}
+		handleSubmitWithErrors(
+			() => resetPassword(values.email, values.code, values.newPassword),
+			() => navigate(ROUTER_KEYS.LOGIN),
+			'Reset password',
+		);
 	};
 
 	return (

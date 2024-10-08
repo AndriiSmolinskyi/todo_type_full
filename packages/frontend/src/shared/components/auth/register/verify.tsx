@@ -5,23 +5,18 @@ import TodoInput from '~shared/components/todo/todo.modal/todo.input';
 import { useAuthStore } from '~store/auth.store';
 import { useNavigate } from 'react-router-dom';
 import { ROUTER_KEYS } from '~router/router.keys';
+import { handleSubmitWithErrors } from '~shared/utils/handel.submit';
 
 const Verify: React.FC = () => {
 	const { verifyEmail } = useAuthStore();
 	const navigate = useNavigate();
 
-	const handleVerifySubmit = async (values: {
-		email: string;
-		code: string;
-	}) => {
-		try {
-			await verifyEmail(values.email, values.code);
-			navigate(ROUTER_KEYS.LOGIN);
-		} catch (error: any) {
-			const errorMessage =
-				error.response?.data?.message || 'Unknown error occurred';
-			alert(`Verification error: ${errorMessage}`);
-		}
+	const handleVerifySubmit = (values: { email: string; code: string }) => {
+		handleSubmitWithErrors(
+			() => verifyEmail(values.email, values.code),
+			() => navigate(ROUTER_KEYS.LOGIN),
+			'Verification',
+		);
 	};
 
 	return (
