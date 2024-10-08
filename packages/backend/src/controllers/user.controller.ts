@@ -15,7 +15,6 @@ class UserController {
 				password,
 			);
 
-			// Після успішної реєстрації автоматично відправляємо код верифікації
 			await this.userService.sendVerificationCode(email);
 
 			res.status(201).json({
@@ -35,7 +34,7 @@ class UserController {
 			}
 		}
 	}
-	
+
 	async sendVerificationCode(req: Request, res: Response): Promise<void> {
 		const { email } = req.body;
 
@@ -186,6 +185,53 @@ class UserController {
 	async getAllUsers(req: Request, res: Response): Promise<void> {
 		const users = await this.userService.getAllUsers();
 		res.json(users);
+	}
+
+	async updatePassword(req: AuthRequest, res: Response): Promise<void> {
+		const { password } = req.body;
+		const userId = req.currentUser?.id;
+
+		if (!userId) {
+			res.status(401).json({ message: 'Unauthorized' });
+			return;
+		}
+
+		const updatedUser = await this.userService.updatePassword(
+			userId,
+			password,
+		);
+
+		if (!updatedUser) {
+			res.status(400).json({ message: 'Failed to update password' });
+			return;
+		}
+
+		res.json({ message: 'Password updated successfully' });
+	}
+
+	async updateUserName(req: AuthRequest, res: Response): Promise<void> {
+		const { username } = req.body;
+		const userId = req.currentUser?.id;
+
+		if (!userId) {
+			res.status(401).json({ message: 'Unauthorized' });
+			return;
+		}
+
+		const updatedUser = await this.userService.updateUserName(
+			userId,
+			username,
+		);
+
+		if (!updatedUser) {
+			res.status(400).json({ message: 'Failed to update username' });
+			return;
+		}
+
+		res.json({
+			message: 'Username updated successfully',
+			user: updatedUser,
+		});
 	}
 }
 

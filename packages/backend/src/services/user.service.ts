@@ -215,6 +215,24 @@ class UserService {
 			},
 		}) as Promise<UserPublic[]>;
 	}
+
+	async updatePassword(
+		id: number,
+		newPassword: string,
+	): Promise<User | null> {
+		const hashedPassword = await bcrypt.hash(newPassword, 10);
+		return prisma.user.update({
+			where: { id },
+			data: { password: hashedPassword },
+		});
+	}
+
+	async updateUserName(id: number, username: string): Promise<User | null> {
+		return prisma.user.update({
+			where: { id },
+			data: { username },
+		});
+	}
 }
 
 export default UserService;

@@ -74,4 +74,18 @@ usersRouter.get(
   tryCatchMiddleware(userController.getAllUsers.bind(userController))
 );
 
+usersRouter.put(
+  '/update-password',
+  authMiddleware,
+  validatorMiddleware(userValidationSchema.updatePasswordSchema),
+  tryCatchMiddleware(userController.updatePassword.bind(userController))
+);
+
+usersRouter.put(
+  '/update-username',
+  authMiddleware,
+  validatorMiddleware(userValidationSchema.updateUserNameSchema),
+  tryCatchMiddleware(userController.updateUserName.bind(userController))
+);
+
 export default usersRouter;
