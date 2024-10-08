@@ -188,7 +188,7 @@ class UserController {
 	}
 
 	async updatePassword(req: AuthRequest, res: Response): Promise<void> {
-		const { password } = req.body;
+		const { oldPassword, newPassword } = req.body;
 		const userId = req.currentUser?.id;
 
 		if (!userId) {
@@ -196,17 +196,22 @@ class UserController {
 			return;
 		}
 
-		const updatedUser = await this.userService.updatePassword(
-			userId,
-			password,
-		);
+		try {
+			const updatedUser = await this.userService.updatePassword(
+				userId,
+				oldPassword,
+				newPassword,
+			);
 
-		if (!updatedUser) {
-			res.status(400).json({ message: 'Failed to update password' });
-			return;
+			if (!updatedUser) {
+				res.status(400).json({ message: 'Failed to update password' });
+				return;
+			}
+
+			res.json({ message: 'Password updated successfully' });
+		} catch (error) {
+			res.status(400).json({ message: (error as Error).message });
 		}
-
-		res.json({ message: 'Password updated successfully' });
 	}
 
 	async updateUserName(req: AuthRequest, res: Response): Promise<void> {

@@ -7,6 +7,7 @@ import AuthChoice from '~shared/components/auth/auth.start';
 import Verify from '~shared/components/auth/register/verify';
 import ResetPassword from '~shared/components/auth/login/reset';
 import RestorePassword from '~shared/components/auth/login/restore';
+import UserPage from '~shared/components/user/user.page';
 import { Route } from 'react-router-dom';
 import { ROUTER_KEYS } from './router.keys';
 
@@ -25,5 +26,6 @@ export const privateRoutes = (
   <>
     <Route path={ROUTER_KEYS.HOME} element={<TodoContainer />} />
     <Route path={ROUTER_KEYS.TODOS} element={<TodoDetails />} />
+    <Route path={ROUTER_KEYS.USER} element={<UserPage />} />
   </>
 );
