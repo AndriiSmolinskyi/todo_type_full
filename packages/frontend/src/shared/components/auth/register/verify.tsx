@@ -14,8 +14,14 @@ const Verify: React.FC = () => {
 		email: string;
 		code: string;
 	}) => {
-		await verifyEmail(values.email, values.code);
-		navigate(ROUTER_KEYS.LOGIN);
+		try {
+			await verifyEmail(values.email, values.code);
+			navigate(ROUTER_KEYS.LOGIN);
+		} catch (error: any) {
+			const errorMessage =
+				error.response?.data?.message || 'Unknown error occurred';
+			alert(`Verification error: ${errorMessage}`);
+		}
 	};
 
 	return (

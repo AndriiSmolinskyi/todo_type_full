@@ -14,8 +14,14 @@ const LoginForm: React.FC = () => {
 		email: string;
 		password: string;
 	}) => {
-		await login(values.email, values.password);
-    navigate(ROUTER_KEYS.HOME)
+		try {
+			await login(values.email, values.password);
+			navigate(ROUTER_KEYS.HOME);
+		} catch (error: any) {
+			const errorMessage =
+				error.response?.data?.message || 'Unknown error occurred';
+			alert(`Login error: ${errorMessage}`);
+		}
 	};
 
 	return (
@@ -40,7 +46,9 @@ const LoginForm: React.FC = () => {
 						touched={touched.password}
 					/>
 					<button type="submit">Login</button>
-          <button onClick={() => navigate(ROUTER_KEYS.RESET_PASS)}>Forgot pass</button>
+					<button onClick={() => navigate(ROUTER_KEYS.RESET_PASS)}>
+						Forgot pass
+					</button>
 				</Form>
 			)}
 		</Formik>

@@ -14,8 +14,14 @@ const RestorePassword: React.FC = () => {
 		code: string;
 		newPassword: string;
 	}) => {
-		await resetPassword(values.email, values.code, values.newPassword);
-		navigate(ROUTER_KEYS.LOGIN);
+		try {
+			await resetPassword(values.email, values.code, values.newPassword);
+			navigate(ROUTER_KEYS.LOGIN);
+		} catch (error: any) {
+			const errorMessage =
+				error.response?.data?.message || 'Unknown error occurred';
+			alert(`Reset password error: ${errorMessage}`);
+		}
 	};
 
 	return (

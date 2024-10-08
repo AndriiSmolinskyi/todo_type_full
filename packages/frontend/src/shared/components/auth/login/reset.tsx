@@ -10,10 +10,15 @@ const ResetPassword: React.FC = () => {
 	const navigate = useNavigate();
 
 	const handleEmailSubmit = async (values: { email: string }) => {
-		await initiateResetPassword(values.email);
-        navigate(ROUTER_KEYS.RESTORE_PASS)
+		try {
+			await initiateResetPassword(values.email);
+			navigate(ROUTER_KEYS.RESTORE_PASS);
+		} catch (error: any) {
+			const errorMessage =
+				error.response?.data?.message || 'Unknown error occurred';
+			alert(`Reset password error: ${errorMessage}`);
+		}
 	};
-
 	return (
 		<Formik initialValues={{ email: '' }} onSubmit={handleEmailSubmit}>
 			{({ errors, touched }) => (

@@ -15,8 +15,14 @@ const RegisterForm: React.FC = () => {
 		email: string;
 		password: string;
 	}) => {
-		await register(values.username, values.email, values.password);
-		navigate(ROUTER_KEYS.VERIFY);
+		try {
+			await register(values.username, values.email, values.password);
+			navigate(ROUTER_KEYS.VERIFY);
+		} catch (error: any) {
+			const errorMessage =
+				error.response?.data?.message || 'Unknown error occurred';
+			alert(`Registration error: ${errorMessage}`);
+		}
 	};
 
 	return (
