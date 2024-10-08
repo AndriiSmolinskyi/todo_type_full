@@ -9,10 +9,18 @@ class UserController {
 		const { username, email, password } = req.body;
 
 		try {
-			await this.userService.register(username, email, password);
+			const user = await this.userService.register(
+				username,
+				email,
+				password,
+			);
+
+			// Після успішної реєстрації автоматично відправляємо код верифікації
+			await this.userService.sendVerificationCode(email);
+
 			res.status(201).json({
 				message:
-					'User registered successfully. Please request verification code.',
+					'User registered successfully. Verification code has been sent to your email.',
 			});
 		} catch (error) {
 			const errorMessage = (error as Error).message;
@@ -27,7 +35,7 @@ class UserController {
 			}
 		}
 	}
-
+	
 	async sendVerificationCode(req: Request, res: Response): Promise<void> {
 		const { email } = req.body;
 
