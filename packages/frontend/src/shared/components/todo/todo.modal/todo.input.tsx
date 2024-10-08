@@ -8,15 +8,16 @@ interface TodoInputProps {
   errors?: string;
   touched?: boolean;
   id?: string;
+  type?: string;
 }
 
-const TodoInput: React.FC<TodoInputProps> = ({ name, label, errors, touched, id }) => {
+const TodoInput: React.FC<TodoInputProps> = ({ name, label, errors, touched, id, type = 'text' }) => {
   return (
     <div className={styles.formBlockItem}>
       <label htmlFor={id || name} className={styles.modalFormLabel}>
         {label}
       </label>
-      <Field name={name} id={id || name} className={styles.modalFormInput} />
+      <Field name={name} id={id || name} className={styles.modalFormInput} type={type}/>
       {errors && touched ? (
         <div className={styles.modalFormError}>{errors}</div>
       ) : null}

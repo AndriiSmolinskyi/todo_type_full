@@ -23,7 +23,7 @@ class TodoService extends HttpService {
   }
 
   public async deleteTodo(id: number): Promise<void> {
-    return this.delete<void>(`todos/deleteTodo/${id}`); // Додано слеш перед ${id}
+    return this.delete<void>(`todos/deleteTodo/${id}`); 
   }
 }
 
