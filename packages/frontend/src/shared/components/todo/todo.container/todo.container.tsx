@@ -13,22 +13,38 @@ import { ROUTER_KEYS } from '~router/router.keys';
 
 const TodoContainer: React.FC = () => {
 	const { todos, fetchTodos, deleteTodo, updateTodo } = useTodoStore();
+	const [searchQuery, setSearchQuery] = useState('');
+	const [statusFilter, setStatusFilter] = useState('All');
 	const [isModalOpen, setModalOpen] = useState(false);
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		fetchTodos();
-	}, [fetchTodos]);
+		fetchTodos(searchQuery, statusFilter === 'All' ? '' : statusFilter.toLowerCase());
+	}, [searchQuery, statusFilter]);
+
+	const handleSearchChange = (searchValue: string) => {
+		setSearchQuery(searchValue);
+	};
+
+	const handleFilterChange = (status: string) => {
+		setStatusFilter(status);
+	};
 
 	const toggleModal = () => setModalOpen(!isModalOpen);
 
 	const actionHandlers = {
-		toggle: (id: number, completed?: boolean) => updateTodo(id, { completed: !completed }),
+		toggle: (id: number, completed?: boolean) =>
+			updateTodo(id, { completed: !completed }),
 		delete: (id: number) => deleteTodo(id),
-		view: (id: number) => navigate(ROUTER_KEYS.TODOS.replace(':id', id.toString())),
+		view: (id: number) =>
+			navigate(ROUTER_KEYS.TODOS.replace(':id', id.toString())),
 	};
 
-	const handleAction = (id: number, action: 'toggle' | 'delete' | 'view', completed?: boolean) => {
+	const handleAction = (
+		id: number,
+		action: 'toggle' | 'delete' | 'view',
+		completed?: boolean,
+	) => {
 		actionHandlers[action](id, completed);
 	};
 
@@ -55,14 +71,11 @@ const TodoContainer: React.FC = () => {
 	return (
 		<div className={styles.ContrainerStyle}>
 			<div className={styles.ContainerBtnBlock}>
-				<TodoSort></TodoSort>
-				<TodoSearch></TodoSearch>
+				<TodoSort onFilterChange={handleFilterChange} selectedFilter={statusFilter} />
+				<TodoSearch onSearchChange={handleSearchChange} />
 			</div>
 
-			<button
-				className={styles.ContainerCreateTodo}
-				onClick={toggleModal}
-			>
+			<button className={styles.ContainerCreateTodo} onClick={toggleModal}>
 				Create Todo
 			</button>
 

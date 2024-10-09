@@ -1,15 +1,32 @@
-import React from 'react';
-import * as styles from './todo.sort.style'
+import React, { useState } from 'react';
+import * as styles from './todo.sort.style';
 
-const TodoSort: React.FC = () => {
+interface TodoSortProps {
+	onFilterChange: (status: string) => void;
+	selectedFilter: string;
+}
+
+const TodoSort: React.FC<TodoSortProps> = ({
+	onFilterChange,
+	selectedFilter,
+}) => {
+	const handleFilterClick = (filter: string) => {
+		onFilterChange(filter);
+	};
+
 	return (
 		<div className={styles.TodoSortBlock}>
-			<button className={styles.TodoSortBtn}>All</button>
-			<button className={styles.TodoSortBtn}>Private</button>
-			<button className={styles.TodoSortBtn}>Public</button>
-			<button className={styles.TodoSortBtn}>Completed</button>
+			{['All', 'Private', 'Public', 'Completed'].map((filter) => (
+				<button
+					key={filter}
+					className={`${styles.TodoSortBtn} ${selectedFilter === filter ? styles.TodoSortBtnSelected : ''}`}
+					onClick={() => handleFilterClick(filter)}
+				>
+					{filter}
+				</button>
+			))}
 		</div>
 	);
 };
 
-export default TodoSort
+export default TodoSort;
