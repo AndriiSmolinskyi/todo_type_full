@@ -3,17 +3,20 @@ export interface Todo {
 	title?: string;
 	body?: string;
 	completed?: boolean;
+	private?: boolean; 
 }
 
 export interface TodoCreate {
 	title: string;
 	body: string;
+	private?: boolean; 
 }
 
 export interface TodoUpdate {
 	title?: string;
 	body?: string;
 	completed?: boolean;
+	private?: boolean; 
 }
 
 export interface TodoStore {
@@ -34,4 +37,3 @@ export interface TodoItemProps {
 		completed?: boolean,
 	) => void;
 }
-

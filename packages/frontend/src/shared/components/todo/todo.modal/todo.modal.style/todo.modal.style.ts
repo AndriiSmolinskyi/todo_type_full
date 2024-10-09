@@ -42,6 +42,7 @@ export const formBlock = css`
 export const formBlockItem = css`
 	display: flex;
 	flex-direction: column;
+	width: 100%;
 	gap: 5px;
 `;
 

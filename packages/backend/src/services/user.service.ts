@@ -215,6 +215,40 @@ class UserService {
 			},
 		}) as Promise<UserPublic[]>;
 	}
+
+	async updatePassword(
+		id: number,
+		oldPassword: string,
+		newPassword: string,
+	): Promise<User | null> {
+		const user = await prisma.user.findUnique({ where: { id } });
+
+		if (!user) {
+			return null;
+		}
+		const isOldPasswordValid = await bcrypt.compare(
+			oldPassword,
+			user.password,
+		);
+
+		if (!isOldPasswordValid) {
+			throw new Error('Incorrect old password');
+		}
+
+		const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+		return prisma.user.update({
+			where: { id },
+			data: { password: hashedPassword },
+		});
+	}
+
+	async updateUserName(id: number, username: string): Promise<User | null> {
+		return prisma.user.update({
+			where: { id },
+			data: { username },
+		});
+	}
 }
 
 export default UserService;

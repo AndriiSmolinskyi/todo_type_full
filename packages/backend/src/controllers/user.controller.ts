@@ -9,10 +9,17 @@ class UserController {
 		const { username, email, password } = req.body;
 
 		try {
-			await this.userService.register(username, email, password);
+			const user = await this.userService.register(
+				username,
+				email,
+				password,
+			);
+
+			await this.userService.sendVerificationCode(email);
+
 			res.status(201).json({
 				message:
-					'User registered successfully. Please request verification code.',
+					'User registered successfully. Verification code has been sent to your email.',
 			});
 		} catch (error) {
 			const errorMessage = (error as Error).message;
@@ -178,6 +185,58 @@ class UserController {
 	async getAllUsers(req: Request, res: Response): Promise<void> {
 		const users = await this.userService.getAllUsers();
 		res.json(users);
+	}
+
+	async updatePassword(req: AuthRequest, res: Response): Promise<void> {
+		const { oldPassword, newPassword } = req.body;
+		const userId = req.currentUser?.id;
+
+		if (!userId) {
+			res.status(401).json({ message: 'Unauthorized' });
+			return;
+		}
+
+		try {
+			const updatedUser = await this.userService.updatePassword(
+				userId,
+				oldPassword,
+				newPassword,
+			);
+
+			if (!updatedUser) {
+				res.status(400).json({ message: 'Failed to update password' });
+				return;
+			}
+
+			res.json({ message: 'Password updated successfully' });
+		} catch (error) {
+			res.status(400).json({ message: (error as Error).message });
+		}
+	}
+
+	async updateUserName(req: AuthRequest, res: Response): Promise<void> {
+		const { username } = req.body;
+		const userId = req.currentUser?.id;
+
+		if (!userId) {
+			res.status(401).json({ message: 'Unauthorized' });
+			return;
+		}
+
+		const updatedUser = await this.userService.updateUserName(
+			userId,
+			username,
+		);
+
+		if (!updatedUser) {
+			res.status(400).json({ message: 'Failed to update username' });
+			return;
+		}
+
+		res.json({
+			message: 'Username updated successfully',
+			user: updatedUser,
+		});
 	}
 }
 

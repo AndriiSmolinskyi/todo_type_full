@@ -7,23 +7,23 @@ class TodoService extends HttpService {
   }
 
   public async getTodos(): Promise<Todo[]> {
-    return this.get<Todo[]>('todos/getAllTodos');
+    return this.get<Todo[]>('todos/getAllTodos', true); 
   }
 
   public async getTodoById(id: number): Promise<Todo> {
-    return this.get<Todo>(`todos/getTodo/${id}`);
+    return this.get<Todo>(`todos/getTodo/${id}`, true); 
   }
 
   public async createTodo(data: TodoCreate): Promise<Todo> {
-    return this.post<Todo, TodoCreate>('todos/createTodo', data);
+    return this.post<Todo, TodoCreate>('todos/createTodo', data, true); 
   }
 
   public async updateTodo(id: number, data: TodoUpdate): Promise<Todo> {
-    return this.put<Todo, TodoUpdate>(`todos/updateTodo/${id}`, data);
+    return this.put<Todo, TodoUpdate>(`todos/updateTodo/${id}`, data, true); 
   }
 
   public async deleteTodo(id: number): Promise<void> {
-    return this.delete<void>(`todos/deleteTodo/${id}`); // Додано слеш перед ${id}
+    return this.delete<void>(`todos/deleteTodo/${id}`, true); 
   }
 }
 

@@ -1,41 +1,35 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
-import { useTodoStore } from '~store/todo.store';
-import { TodoCreate } from '~shared/interface/todo.interface';
+import { useAuthStore } from '~store/auth.store';
 import * as styles from './todo.modal.style/todo.modal.style';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { TodoCreateSchema } from './todo.schemes/todo.create.schema';
 import TodoInput from './todo.input';
+import { PasswordChangeSchema } from './todo.schemes/password.change.schema';
 
-interface TodoModalProps {
+const PasswordChangeModal: React.FC<{
 	isOpen: boolean;
 	onClose: () => void;
-}
-
-const TodoModal: React.FC<TodoModalProps> = ({ isOpen, onClose }) => {
-	const { addTodo } = useTodoStore();
+}> = ({ isOpen, onClose }) => {
+	const { updatePassword } = useAuthStore();
 
 	const handleSubmit = async (
-		values: TodoCreate,
+		values: { oldPassword: string; newPassword: string },
 		{ resetForm }: { resetForm: () => void },
 	) => {
-		await addTodo(values);
+		await updatePassword(values.oldPassword, values.newPassword);
 		resetForm();
 		onClose();
 	};
 
-	const INITIAL_VALUES = {
-		title: '',
-		body: '',
-	};
+	const INITIAL_VALUES = { oldPassword: '', newPassword: '' };
 
 	if (!isOpen) return null;
 
 	return (
 		<div className={styles.modalOverlayStyle}>
 			<div className={styles.modalContentStyle}>
-				<h2 className={styles.modalTitle}>Create Todo</h2>
+				<h2 className={styles.modalTitle}>Change Password</h2>
 				<FontAwesomeIcon
 					icon={faXmark}
 					onClick={onClose}
@@ -43,32 +37,30 @@ const TodoModal: React.FC<TodoModalProps> = ({ isOpen, onClose }) => {
 				/>
 				<Formik
 					initialValues={INITIAL_VALUES}
-					validationSchema={TodoCreateSchema}
+					validationSchema={PasswordChangeSchema}
 					onSubmit={handleSubmit}
 				>
 					{({ errors, touched }) => (
 						<Form className={styles.formBlock}>
 							<TodoInput
-								name="title"
-								label="Title"
-								errors={errors.title}
-								touched={touched.title}
-								id="title"
+								name="oldPassword"
+								label="Old Password"
+								type="password"
+								errors={errors.oldPassword}
+								touched={touched.oldPassword}
 							/>
-
 							<TodoInput
-								name="body"
-								label="Body"
-								errors={errors.body}
-								touched={touched.body}
-								id="body"
+								name="newPassword"
+								label="New Password"
+								type="password"
+								errors={errors.newPassword}
+								touched={touched.newPassword}
 							/>
-
 							<button
 								type="submit"
 								className={styles.modalFormSubmit}
 							>
-								Create
+								Change Password
 							</button>
 						</Form>
 					)}
@@ -78,4 +70,4 @@ const TodoModal: React.FC<TodoModalProps> = ({ isOpen, onClose }) => {
 	);
 };
 
-export default TodoModal;
+export default PasswordChangeModal;

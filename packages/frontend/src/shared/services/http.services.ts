@@ -1,4 +1,5 @@
-import axios, { AxiosInstance, AxiosError } from "axios";
+import axios, { AxiosInstance, AxiosError } from 'axios';
+import { STORAGE_KEYS } from '~keys/storage.keys'; 
 
 class HttpService {
   private axiosInstance: AxiosInstance;
@@ -7,6 +8,11 @@ class HttpService {
     this.axiosInstance = axios.create({
       baseURL: this.baseUrl,
     });
+  }
+
+  private getAuthHeaders() {
+    const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
+    return token ? { Authorization: `Bearer ${token}` } : {};
   }
 
   private handleError(error: AxiosError): void {
@@ -20,9 +26,10 @@ class HttpService {
     }
   }
 
-  public async get<T>(endpoint: string): Promise<T> {
+  public async get<T>(endpoint: string, requiresAuth: boolean = false): Promise<T> {
     try {
-      const response = await this.axiosInstance.get<T>(`${this.baseUrl}${endpoint}`);
+      const headers = requiresAuth ? this.getAuthHeaders() : {};
+      const response = await this.axiosInstance.get<T>(`${this.baseUrl}${endpoint}`, { headers });
       return response.data;
     } catch (error) {
       this.handleError(error as AxiosError);
@@ -30,9 +37,10 @@ class HttpService {
     }
   }
 
-  public async post<T, D>(endpoint: string, data: D): Promise<T> {
+  public async post<T, D>(endpoint: string, data: D, requiresAuth: boolean = false): Promise<T> {
     try {
-      const response = await this.axiosInstance.post<T>(`${this.baseUrl}${endpoint}`, data);
+      const headers = requiresAuth ? this.getAuthHeaders() : {};
+      const response = await this.axiosInstance.post<T>(`${this.baseUrl}${endpoint}`, data, { headers });
       return response.data;
     } catch (error) {
       this.handleError(error as AxiosError);
@@ -40,9 +48,10 @@ class HttpService {
     }
   }
 
-  public async put<T, D>(endpoint: string, data: D): Promise<T> {
+  public async put<T, D>(endpoint: string, data: D, requiresAuth: boolean = false): Promise<T> {
     try {
-      const response = await this.axiosInstance.put<T>(`${this.baseUrl}${endpoint}`, data);
+      const headers = requiresAuth ? this.getAuthHeaders() : {};
+      const response = await this.axiosInstance.put<T>(`${this.baseUrl}${endpoint}`, data, { headers });
       return response.data;
     } catch (error) {
       this.handleError(error as AxiosError);
@@ -50,9 +59,10 @@ class HttpService {
     }
   }
 
-  public async delete<T>(endpoint: string): Promise<T> {
+  public async delete<T>(endpoint: string, requiresAuth: boolean = false): Promise<T> {
     try {
-      const response = await this.axiosInstance.delete<T>(`${this.baseUrl}${endpoint}`);
+      const headers = requiresAuth ? this.getAuthHeaders() : {};
+      const response = await this.axiosInstance.delete<T>(`${this.baseUrl}${endpoint}`, { headers });
       return response.data;
     } catch (error) {
       this.handleError(error as AxiosError);

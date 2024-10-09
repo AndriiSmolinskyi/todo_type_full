@@ -2,7 +2,7 @@ import React from 'react';
 import TodoItemTablet from './todo.item.tablet';
 import { TodoItemProps } from '~shared/interface/todo.interface';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/swiper-bundle.css'; // Підключення стилів Swiper
+import 'swiper/swiper-bundle.css'; 
 import * as styles from './todo.tablet.style'
 
 const TodoContainerTablet: React.FC<{

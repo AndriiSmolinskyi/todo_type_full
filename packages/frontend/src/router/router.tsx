@@ -1,22 +1,21 @@
-import * as React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import TodoContainer from '~shared/components/todo/todo.container/todo.container';
-import TodoDetails from '~shared/components/todo/todo.details/todo.details';
-import { WrapperStyles } from './wrapper.styles';
+import React from 'react';
+import { Routes } from 'react-router-dom';
+import { useAuthStore } from '~store/auth.store';
+import { publicRoutes, privateRoutes } from './routes'; 
 import Header from '~shared/components/header/header';
-import { ROUTER_KEYS } from './router.keys';
+import { WrapperStyles } from './wrapper.styles';
 
 const AppRouter: React.FunctionComponent = () => {
+  const { isAuthenticated } = useAuthStore();
 
-	return (
-		<div className={WrapperStyles}>
-			<Header></Header>
-			<Routes>
-				<Route path={ROUTER_KEYS.HOME} element={<TodoContainer />} />
-				<Route path={ROUTER_KEYS.TODOS} element={<TodoDetails />} />
-			</Routes>
-		</div>
-	);
+  return (
+    <div className={WrapperStyles}>
+      <Header />
+      <Routes>
+        {isAuthenticated ? privateRoutes : publicRoutes}
+      </Routes>
+    </div>
+  );
 };
 
 export default AppRouter;
