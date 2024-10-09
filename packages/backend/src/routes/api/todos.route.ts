@@ -14,7 +14,7 @@ const todosRouter: Router = Router();
 
 todosRouter.get(
 	'/getAllTodos',
-	authMiddleware, 
+	authMiddleware,
 	tryCatchMiddleware(todoController.getFilteredTodos.bind(todoController)),
 );
 
@@ -32,18 +32,16 @@ todosRouter.post(
 );
 
 todosRouter.put(
-	'/updateTodo/:id',
-	authMiddleware,
-	isExist(TodoService.prototype.findById),
-	validatorMiddleware(updateTodoSchema),
-	tryCatchMiddleware(todoController.updatesTodo.bind(todoController)),
+    '/updateTodo/:id',
+    authMiddleware,
+    validatorMiddleware(updateTodoSchema),
+    tryCatchMiddleware(todoController.updatesTodo.bind(todoController)),
 );
 
 todosRouter.delete(
-	'/deleteTodo/:id',
-	authMiddleware,
-	isExist(TodoService.prototype.findById), 
-	tryCatchMiddleware(todoController.deleteTodo.bind(todoController)),
+    '/deleteTodo/:id',
+    authMiddleware,
+    tryCatchMiddleware(todoController.deleteTodo.bind(todoController)),
 );
 
 export default todosRouter;
