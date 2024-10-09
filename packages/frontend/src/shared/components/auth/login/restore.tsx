@@ -8,6 +8,7 @@ import { handleSubmitWithErrors } from '~shared/utils/handel.submit';
 import * as styles from '../auth.style';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { initialValues } from '../auth.initial';
 
 const RestorePassword: React.FC = () => {
 	const { resetPassword } = useAuthStore();
@@ -27,7 +28,7 @@ const RestorePassword: React.FC = () => {
 
 	return (
 		<Formik
-			initialValues={{ email: '', code: '', newPassword: '' }}
+			initialValues={initialValues.restorePassword}
 			onSubmit={handleResetSubmit}
 		>
 			{({ errors, touched }) => (

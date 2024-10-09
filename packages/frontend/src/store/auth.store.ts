@@ -1,5 +1,7 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 import AuthService from '~shared/services/auth.service';
+import { STORAGE_KEYS } from '~/keys/storage.keys'; 
 
 interface AuthState {
 	token: string | null;
@@ -21,41 +23,50 @@ interface AuthState {
 	logout: () => void;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
-	token: localStorage.getItem('auth_token'),
-	isAuthenticated: !!localStorage.getItem('auth_token'),
+export const useAuthStore = create(
+	persist<AuthState>(
+		(set) => ({
+			token: null,
+			isAuthenticated: false,
 
-	login: async (email, password) => {
-		const sessionToken = await AuthService.login({ email, password });
-		if (sessionToken) {
-			localStorage.setItem('auth_token', sessionToken);
-			set({ token: sessionToken, isAuthenticated: true });
-		}
-	},
+			login: async (email, password) => {
+				const sessionToken = await AuthService.login({ email, password });
+				if (sessionToken) {
+					// Використовуємо існуючий ключ для збереження токена
+					localStorage.setItem(STORAGE_KEYS.TOKEN, sessionToken);
+					set({ token: sessionToken, isAuthenticated: true });
+				}
+			},
 
-	register: async (username, email, password) => {
-		await AuthService.register({ username, email, password });
-	},
+			register: async (username, email, password) => {
+				await AuthService.register({ username, email, password });
+			},
 
-	verifyEmail: async (email, code) => {
-		await AuthService.verifyEmail({ email, code });
-	},
+			verifyEmail: async (email, code) => {
+				await AuthService.verifyEmail({ email, code });
+			},
 
-	initiateResetPassword: async (email) => {
-		await AuthService.initiateResetPassword(email);
-	},
+			initiateResetPassword: async (email) => {
+				await AuthService.initiateResetPassword(email);
+			},
 
-	resetPassword: async (email, code, newPassword) => {
-		await AuthService.resetPassword({ email, code, newPassword });
-	},
+			resetPassword: async (email, code, newPassword) => {
+				await AuthService.resetPassword({ email, code, newPassword });
+			},
 
-	updatePassword: async (oldPassword, newPassword) => {
-		await AuthService.updatePassword(oldPassword, newPassword);
-	},
+			updatePassword: async (oldPassword, newPassword) => {
+				await AuthService.updatePassword(oldPassword, newPassword);
+			},
 
-	logout: () => {
-		AuthService.logout();
-		localStorage.removeItem('auth_token');
-		set({ token: null, isAuthenticated: false });
-	},
-}));
+			logout: () => {
+				AuthService.logout();
+				localStorage.removeItem(STORAGE_KEYS.TOKEN);
+				set({ token: null, isAuthenticated: false });
+			},
+		}),
+		{
+			name: 'auth-storage', 
+			getStorage: () => localStorage, 
+		},
+	),
+);

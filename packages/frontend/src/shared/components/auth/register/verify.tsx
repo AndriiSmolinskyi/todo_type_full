@@ -9,6 +9,7 @@ import { handleSubmitWithErrors } from '~shared/utils/handel.submit';
 import * as styles from '../auth.style';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { initialValues } from '../auth.initial';
 
 const Verify: React.FC = () => {
 	const { verifyEmail } = useAuthStore();
@@ -24,7 +25,7 @@ const Verify: React.FC = () => {
 
 	return (
 		<Formik
-			initialValues={{ email: '', code: '' }}
+			initialValues={initialValues.verify}
 			validationSchema={VerifySchema}
 			onSubmit={handleVerifySubmit}
 		>
