@@ -8,13 +8,14 @@ import {
 	updateTodoSchema,
 } from '@/validation/validation.todo';
 import { authMiddleware } from '@/middlewares/auth.middleware';
+import TodoService from '@/services/todo.service';
 
 const todosRouter: Router = Router();
 
 todosRouter.get(
 	'/getAllTodos',
 	authMiddleware, 
-	tryCatchMiddleware(todoController.getAllTodos.bind(todoController)),
+	tryCatchMiddleware(todoController.getFilteredTodos.bind(todoController)),
 );
 
 todosRouter.get(
@@ -22,7 +23,6 @@ todosRouter.get(
 	authMiddleware,
 	tryCatchMiddleware(todoController.getTodoById.bind(todoController)),
 );
-
 
 todosRouter.post(
 	'/createTodo',
@@ -34,6 +34,7 @@ todosRouter.post(
 todosRouter.put(
 	'/updateTodo/:id',
 	authMiddleware,
+	isExist(TodoService.prototype.findById),
 	validatorMiddleware(updateTodoSchema),
 	tryCatchMiddleware(todoController.updatesTodo.bind(todoController)),
 );
@@ -41,6 +42,7 @@ todosRouter.put(
 todosRouter.delete(
 	'/deleteTodo/:id',
 	authMiddleware,
+	isExist(TodoService.prototype.findById), 
 	tryCatchMiddleware(todoController.deleteTodo.bind(todoController)),
 );
 
