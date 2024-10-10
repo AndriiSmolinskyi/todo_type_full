@@ -11,28 +11,14 @@ export const useTodoStore = create<TodoStore>((set) => ({
 	totalPages: 1, 
     currentPage: 1,
 
-	// fetchTodos: async (search: string = '', status: string = '') => {
-	// 	set({ isLoading: true, error: null });
-	// 	try {
-	// 		const todos = await todoService.getTodos(search, status);
-	// 		set({ todos, isLoading: false });
-	// 	} catch (error) {
-	// 		const axiosError = error as AxiosError<{ message: string }>;
-	// 		const errorMessage =
-	// 			axiosError.response?.data?.message || 'Error fetching todos';
-	// 		set({ error: errorMessage, isLoading: false });
-	// 		alert(errorMessage);
-	// 	}
-	// },
-
 	fetchTodos: async (search: string = '', status: string = '', page: number = 1) => {
 		set({ isLoading: true, error: null });
 		try {
-			const { todos, totalPages } = await todoService.getTodos(search, status, page); // Отримуємо тудушки та загальну кількість сторінок
+			const { todos, totalPages } = await todoService.getTodos(search, status, page); 
 			set({
-				todos, // Замінюємо весь список на нові тудушки
-				totalPages, // Оновлюємо загальну кількість сторінок
-				currentPage: page, // Оновлюємо поточну сторінку
+				todos, 
+				totalPages, 
+				currentPage: page, 
 				isLoading: false,
 			});
 		} catch (error) {

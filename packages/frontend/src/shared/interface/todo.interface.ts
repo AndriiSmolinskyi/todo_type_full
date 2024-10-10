@@ -28,8 +28,8 @@ export interface TodoStore {
 	todos: Todo[];
 	isLoading: boolean;
 	error: string | null;
-	totalPages: number;    // Додаємо загальну кількість сторінок
-	currentPage: number;   // Додаємо поточну сторінку
+	totalPages: number;    
+	currentPage: number;  
 	fetchTodos: (search: string, status: string, page: number) => Promise<void>; 
 	fetchTodoById: (id: number) => Promise<void>; 
 	addTodo: (todo: Omit<Todo, 'id'>) => Promise<void>;
