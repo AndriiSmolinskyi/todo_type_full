@@ -1,55 +1,43 @@
 {
-	"compilerOptions": {
-		"baseUrl": ".",
-		"paths": {
-			"~assets/*": [
-				"src/assets/*"
-			],
-			"~modules/*": [
-				"src/modules/*"
-			],
-			"~router/*": [
-				"src/router/*"
-			],
-			"~shared/*": [
-				"src/shared/*"
-			],
-			"~store/*": [
-				"src/store/*"
-			],
-			"~typings/*": [
-				"src/typings/*"
-			],
-			"~/*": [
-				"src/*"
-			],
-			"~keys/*": [
-				"src/keys/*"
-			],
-			"~services/*": [
-				"src/shared/services/*"
-			],
-			"~interface/*": [
-				"src/shared/interface/*"
-			],
-			"~utils/*": [
-				"src/shared/utils/*"
-			]
-		},
-		"jsx": "react",
-		"module": "ES2022",
-		"declaration": true,
-		"removeComments": true,
-		"emitDecoratorMetadata": true,
-		"experimentalDecorators": true,
-		"allowSyntheticDefaultImports": true,
-		"target": "ES2022",
-		"sourceMap": true,
-		"outDir": "./dist",
-		"incremental": true,
-		"useDefineForClassFields": true,
-		"skipLibCheck": true,
-		"forceConsistentCasingInFileNames": true,
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "~assets/*": [
+                "src/assets/*"
+            ],
+            "~keys/*": [
+                "src/keys/*"
+            ],
+            "~modules/*": [
+                "src/modules/*"
+            ],
+            "~router/*": [
+                "src/router/*"
+            ],
+            "~shared/*": [
+                "src/shared/*"
+            ],
+            "~store/*": [
+                "src/store/*"
+            ],
+            "~typings/*": [
+                "src/typings/*"
+            ],
+            "~/*": [
+                "src/*"
+            ],
+            "~interface/*": [
+                "src/shared/interface/*"
+            ],
+            "~services/*": [
+                "src/shared/services/*"
+            ],
+            "~utils/*": [
+                "src/shared/utils/*"
+            ]
+        }
+    }
+}tentCasingInFileNames": true,
 		"esModuleInterop": true,
 		"moduleResolution": "node",
 		"composite": true,
