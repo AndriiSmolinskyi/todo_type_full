@@ -66,35 +66,66 @@ export default class TodoService {
 		return true;
 	}
 
+	// async findFilteredTodos(userId?: number, filters?: TodoFilter): Promise<Todo[]> {
+	//     const { search, status } = filters || {};
+
+	//     const whereConditions: Prisma.TodoWhereInput = {
+	//         OR: [
+	//             { private: false },
+	//             { userId }
+	//         ],
+	//     };
+
+	//     if (search) {
+	//         whereConditions.AND = {
+	//             OR: [
+	//                 { title: { contains: search, mode: 'insensitive' } },
+	//                 { body: { contains: search, mode: 'insensitive' } }
+	//             ]
+	//         };
+	//     }
+
+	//     if (status === 'completed') {
+	//         whereConditions.completed = true;
+	//     } else if (status === 'private') {
+	//         whereConditions.private = true;
+	//     } else if (status === 'public') {
+	//         whereConditions.private = false;
+	//     }
+
+	//     return prisma.todo.findMany({
+	//         where: whereConditions,
+	//     });
+	// }
+
 	async findFilteredTodos(userId?: number, filters?: TodoFilter): Promise<Todo[]> {
-        const { search, status } = filters || {};
-
-        const whereConditions: Prisma.TodoWhereInput = {
-            OR: [
-                { private: false }, 
-                { userId }          
-            ],
-        };
-
-        if (search) {
-            whereConditions.AND = {
-                OR: [
-                    { title: { contains: search, mode: 'insensitive' } },
-                    { body: { contains: search, mode: 'insensitive' } }
-                ]
-            };
-        }
-
-        if (status === 'completed') {
-            whereConditions.completed = true;
-        } else if (status === 'private') {
-            whereConditions.private = true;
-        } else if (status === 'public') {
-            whereConditions.private = false;
-        }
-
-        return prisma.todo.findMany({
-            where: whereConditions,
-        });
-    }
+		const { search, status, skip, take } = filters || {};
+	
+		const whereConditions: Prisma.TodoWhereInput = {
+		  OR: [{ private: false }, { userId }],
+		};
+	
+		if (search) {
+		  whereConditions.AND = {
+			OR: [
+			  { title: { contains: search, mode: 'insensitive' } },
+			  { body: { contains: search, mode: 'insensitive' } },
+			],
+		  };
+		}
+	
+		if (status === 'completed') {
+		  whereConditions.completed = true;
+		} else if (status === 'private') {
+		  whereConditions.private = true;
+		} else if (status === 'public') {
+		  whereConditions.private = false;
+		}
+	
+		return prisma.todo.findMany({
+		  where: whereConditions,
+		  skip, 
+		  take,
+		});
+	  }
 }

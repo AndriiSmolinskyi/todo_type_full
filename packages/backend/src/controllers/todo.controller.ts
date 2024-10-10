@@ -92,6 +92,30 @@ export class TodoController {
 		res.status(204).send();
 	}
 
+	// async getFilteredTodos(req: Request, res: Response): Promise<void> {
+	// 	const userId = req.currentUser?.id;
+	// 	const { search, status } = req.query;
+
+	// 	const validStatuses: TodoFilter['status'][] = [
+	// 		'completed',
+	// 		'private',
+	// 		'public',
+	// 	];
+
+	// 	const filterStatus =
+	// 		typeof status === 'string' &&
+	// 		validStatuses.includes(status as TodoFilter['status'])
+	// 			? (status as TodoFilter['status'])
+	// 			: undefined;
+
+	// 	const todos = await this.todoService.findFilteredTodos(userId, {
+	// 		search: search ? String(search) : '',
+	// 		status: filterStatus,
+	// 	});
+
+	// 	res.json(todos);
+	// }
+
 	async getFilteredTodos(req: Request, res: Response): Promise<void> {
 		const userId = req.currentUser?.id;
 		const { search, status } = req.query;
@@ -108,10 +132,11 @@ export class TodoController {
 				? (status as TodoFilter['status'])
 				: undefined;
 
-	
 		const todos = await this.todoService.findFilteredTodos(userId, {
-			search: search ? String(search) : '', 
-			status: filterStatus, 
+			search: search ? String(search) : '',
+			status: filterStatus,
+			skip: req.pagination?.skip || 0, 
+			take: req.pagination?.limit || 8, 
 		});
 
 		res.json(todos);

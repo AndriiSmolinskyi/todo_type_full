@@ -6,17 +6,20 @@ import { tryCatchMiddleware } from '@/middlewares/trycatch';
 import {
 	createTodoSchema,
 	updateTodoSchema,
+	getAllTodosSchema
 } from '@/validation/validation.todo';
 import { authMiddleware } from '@/middlewares/auth.middleware';
-import TodoService from '@/services/todo.service';
+import { paginationMiddleware } from '@/middlewares/pagination.middleware';
 
 const todosRouter: Router = Router();
 
 todosRouter.get(
 	'/getAllTodos',
 	authMiddleware,
+	paginationMiddleware,
 	tryCatchMiddleware(todoController.getFilteredTodos.bind(todoController)),
 );
+
 
 todosRouter.get(
 	'/getTodo/:id',
