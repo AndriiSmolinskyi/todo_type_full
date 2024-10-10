@@ -23,7 +23,7 @@ export interface TodoStore {
 	todos: Todo[];
 	isLoading: boolean;
 	error: string | null;
-	fetchTodos: (search: string, status: string) => Promise<void>;
+	fetchTodos: (search: string, status: string, page: number) => Promise<void>; 
 	fetchTodoById: (id: number) => Promise<void>; // Додано
 	addTodo: (todo: Omit<Todo, 'id'>) => Promise<void>;
 	updateTodo: (id: number, todo: Omit<Todo, 'id'>) => Promise<void>;

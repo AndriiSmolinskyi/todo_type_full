@@ -9,11 +9,28 @@ export const useTodoStore = create<TodoStore>((set) => ({
 	isLoading: false,
 	error: null,
 
-	fetchTodos: async (search: string = '', status: string = '') => {
+	// fetchTodos: async (search: string = '', status: string = '') => {
+	// 	set({ isLoading: true, error: null });
+	// 	try {
+	// 		const todos = await todoService.getTodos(search, status);
+	// 		set({ todos, isLoading: false });
+	// 	} catch (error) {
+	// 		const axiosError = error as AxiosError<{ message: string }>;
+	// 		const errorMessage =
+	// 			axiosError.response?.data?.message || 'Error fetching todos';
+	// 		set({ error: errorMessage, isLoading: false });
+	// 		alert(errorMessage);
+	// 	}
+	// },
+
+	fetchTodos: async (search: string = '', status: string = '', page: number = 1) => {
 		set({ isLoading: true, error: null });
 		try {
-			const todos = await todoService.getTodos(search, status);
-			set({ todos, isLoading: false });
+			const todos = await todoService.getTodos(search, status, page); // Передаємо page в сервіс
+			set((state) => ({
+				todos: page === 1 ? todos : [...state.todos, ...todos], // Якщо перша сторінка - оновлюємо, якщо не - додаємо нові
+				isLoading: false,
+			}));
 		} catch (error) {
 			const axiosError = error as AxiosError<{ message: string }>;
 			const errorMessage =

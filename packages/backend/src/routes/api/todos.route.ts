@@ -6,7 +6,6 @@ import { tryCatchMiddleware } from '@/middlewares/trycatch';
 import {
 	createTodoSchema,
 	updateTodoSchema,
-	getAllTodosSchema
 } from '@/validation/validation.todo';
 import { authMiddleware } from '@/middlewares/auth.middleware';
 import { paginationMiddleware } from '@/middlewares/pagination.middleware';
