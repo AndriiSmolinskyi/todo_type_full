@@ -23,6 +23,25 @@ export const useTodoStore = create<TodoStore>((set) => ({
 		}
 	},
 
+	fetchTodoById: async (id: number) => {
+		set({ isLoading: true, error: null });
+		try {
+			const todo = await todoService.getTodoById(id);
+			set((state) => ({
+				todos: state.todos.some((t) => t.id === todo.id)
+					? state.todos
+					: [...state.todos, todo],
+				isLoading: false,
+			}));
+		} catch (error) {
+			const axiosError = error as AxiosError<{ message: string }>;
+			const errorMessage =
+				axiosError.response?.data?.message || 'Error fetching todo';
+			set({ error: errorMessage, isLoading: false });
+			alert(errorMessage);
+		}
+	},
+
 	addTodo: async (todo: TodoCreate) => {
 		set({ isLoading: true, error: null });
 		try {
@@ -84,4 +103,3 @@ export const useTodoStore = create<TodoStore>((set) => ({
 		}
 	},
 }));
-
