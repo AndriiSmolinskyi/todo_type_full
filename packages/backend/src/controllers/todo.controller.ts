@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import TodoService from '@/services/todo.service';
+import { TodoFilter } from '@/interface/todo.interface';
 
 export class TodoController {
 	constructor(public todoService: TodoService) {}
@@ -89,6 +90,31 @@ export class TodoController {
 		}
 
 		res.status(204).send();
+	}
+
+	async getFilteredTodos(req: Request, res: Response): Promise<void> {
+		const userId = req.currentUser?.id;
+		const { search, status } = req.query;
+
+		const validStatuses: TodoFilter['status'][] = [
+			'completed',
+			'private',
+			'public',
+		];
+
+		const filterStatus =
+			typeof status === 'string' &&
+			validStatuses.includes(status as TodoFilter['status'])
+				? (status as TodoFilter['status'])
+				: undefined;
+
+	
+		const todos = await this.todoService.findFilteredTodos(userId, {
+			search: search ? String(search) : '', 
+			status: filterStatus, 
+		});
+
+		res.json(todos);
 	}
 }
 

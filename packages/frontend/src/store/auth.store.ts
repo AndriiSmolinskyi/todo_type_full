@@ -1,7 +1,7 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 import AuthService from '~shared/services/auth.service';
-import { STORAGE_KEYS } from '~/keys/storage.keys'; 
+import { STORAGE_KEYS } from '~/keys/storage.keys';
 
 interface AuthState {
 	token: string | null;
@@ -30,9 +30,11 @@ export const useAuthStore = create(
 			isAuthenticated: false,
 
 			login: async (email, password) => {
-				const sessionToken = await AuthService.login({ email, password });
+				const sessionToken = await AuthService.login({
+					email,
+					password,
+				});
 				if (sessionToken) {
-					// Використовуємо існуючий ключ для збереження токена
 					localStorage.setItem(STORAGE_KEYS.TOKEN, sessionToken);
 					set({ token: sessionToken, isAuthenticated: true });
 				}
@@ -65,8 +67,8 @@ export const useAuthStore = create(
 			},
 		}),
 		{
-			name: 'auth-storage', 
-			getStorage: () => localStorage, 
+			name: 'auth-storage',
+			storage: createJSONStorage(() => localStorage),
 		},
 	),
 );

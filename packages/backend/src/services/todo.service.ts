@@ -1,35 +1,21 @@
-import { PrismaClient, Todo } from '@prisma/client';
+import { PrismaClient, Prisma, Todo } from '@prisma/client';
+import {
+	CreateTodoInput,
+	UpdateTodoInput,
+	TodoFilter,
+} from '@/interface/todo.interface';
 
 const prisma = new PrismaClient();
 
-interface CreateTodoInput {
-	title: string;
-	body: string;
-	userId: number;
-	private?: boolean;
-}
-
-interface UpdateTodoInput {
-	title?: string;
-	body?: string;
-	completed?: boolean;
-	private?: boolean;
-}
-
 export default class TodoService {
-	// Отримати всі тудушки: публічні та приватні користувача
 	async findAll(userId?: number): Promise<Todo[]> {
 		return prisma.todo.findMany({
 			where: {
-				OR: [
-					{ private: false }, // Публічні тудушки
-					{ userId }, // Приватні тудушки користувача
-				],
+				OR: [{ private: false }, { userId }],
 			},
 		});
 	}
 
-	// Знайти тудушку за ID з врахуванням приватності
 	async findById(id: number, userId?: number): Promise<Todo | null> {
 		const todo = await prisma.todo.findUnique({
 			where: { id },
@@ -40,7 +26,6 @@ export default class TodoService {
 		}
 
 		if (todo.private && todo.userId !== userId) {
-			// Приватна тудушка, яка не належить користувачу
 			return null;
 		}
 
@@ -56,7 +41,6 @@ export default class TodoService {
 		data: UpdateTodoInput,
 		userId: number,
 	): Promise<Todo | null> {
-		// Перевірка права доступу
 		const todo = await prisma.todo.findUnique({ where: { id } });
 
 		if (!todo || todo.userId !== userId) {
@@ -70,7 +54,6 @@ export default class TodoService {
 	}
 
 	async deleteTodo(id: number, userId: number): Promise<boolean> {
-		// Перевірка права доступу
 		const todo = await prisma.todo.findUnique({ where: { id } });
 
 		if (!todo || todo.userId !== userId) {
@@ -82,4 +65,36 @@ export default class TodoService {
 		});
 		return true;
 	}
+
+	async findFilteredTodos(userId?: number, filters?: TodoFilter): Promise<Todo[]> {
+        const { search, status } = filters || {};
+
+        const whereConditions: Prisma.TodoWhereInput = {
+            OR: [
+                { private: false }, 
+                { userId }          
+            ],
+        };
+
+        if (search) {
+            whereConditions.AND = {
+                OR: [
+                    { title: { contains: search, mode: 'insensitive' } },
+                    { body: { contains: search, mode: 'insensitive' } }
+                ]
+            };
+        }
+
+        if (status === 'completed') {
+            whereConditions.completed = true;
+        } else if (status === 'private') {
+            whereConditions.private = true;
+        } else if (status === 'public') {
+            whereConditions.private = false;
+        }
+
+        return prisma.todo.findMany({
+            where: whereConditions,
+        });
+    }
 }

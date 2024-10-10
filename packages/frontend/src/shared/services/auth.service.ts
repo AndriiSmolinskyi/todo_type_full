@@ -51,9 +51,10 @@ class AuthService extends HttpService {
 	}
 
 	public async updatePassword(oldPassword: string, newPassword: string) {
-		return this.put<null, { oldPassword: string; password: string }>(
+		return this.put<null, { oldPassword: string; newPassword: string }>(
 			'users/update-password',
-			{ oldPassword, password: newPassword },
+			{ oldPassword, newPassword },
+			true,
 		);
 	}
 

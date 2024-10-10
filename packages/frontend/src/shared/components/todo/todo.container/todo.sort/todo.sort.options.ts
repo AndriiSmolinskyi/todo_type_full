@@ -1,0 +1,1 @@
+export const FILTER_OPTIONS = ['All', 'Private', 'Public', 'Completed'];
