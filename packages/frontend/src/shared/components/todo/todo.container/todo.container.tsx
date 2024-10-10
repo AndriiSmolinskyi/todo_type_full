@@ -134,7 +134,13 @@ const TodoContainer: React.FC = () => {
 		);
 	} else {
 		TodoListComponent = (
-			<TodoContainerMobile todos={todos} handleAction={handleAction} />
+			<TodoContainerMobile
+  todos={todos}
+  handleAction={handleAction}
+  currentPage={page}
+  totalPages={totalPages}
+  onPageChange={handlePageChange}
+/>
 		);
 	}
 
