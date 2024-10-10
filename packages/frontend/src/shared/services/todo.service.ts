@@ -19,10 +19,10 @@ class TodoService extends HttpService {
 	public async getTodos(
 		search: string = '',
 		status: string = '',
-		page: number = 1 
-	): Promise<Todo[]> {
-		const limit = 8; 
-		return this.get<Todo[]>(
+		page: number = 1
+	): Promise<{ todos: Todo[], totalPages: number }> { // Додаємо загальну кількість сторінок
+		const limit = 8;
+		return this.get<{ todos: Todo[], totalPages: number }>(
 			`todos/getAllTodos?page=${page}&limit=${limit}&status=${encodeURIComponent(status)}&search=${encodeURIComponent(search)}`,
 			true
 		);

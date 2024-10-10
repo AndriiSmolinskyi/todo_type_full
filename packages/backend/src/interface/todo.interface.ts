@@ -12,14 +12,9 @@ export interface UpdateTodoInput {
 	private?: boolean;
 }
 
-// export interface TodoFilter {
-// 	search?: string;
-// 	status?: 'completed' | 'private' | 'public';
-// }
-
 export interface TodoFilter {
 	search?: string;
 	status?: 'completed' | 'private' | 'public';
 	skip?: number;
 	take?: number;
-  }
+}

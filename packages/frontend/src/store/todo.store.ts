@@ -8,6 +8,8 @@ export const useTodoStore = create<TodoStore>((set) => ({
 	todos: [],
 	isLoading: false,
 	error: null,
+	totalPages: 1, 
+    currentPage: 1,
 
 	// fetchTodos: async (search: string = '', status: string = '') => {
 	// 	set({ isLoading: true, error: null });
@@ -26,11 +28,13 @@ export const useTodoStore = create<TodoStore>((set) => ({
 	fetchTodos: async (search: string = '', status: string = '', page: number = 1) => {
 		set({ isLoading: true, error: null });
 		try {
-			const todos = await todoService.getTodos(search, status, page); // Передаємо page в сервіс
-			set((state) => ({
-				todos: page === 1 ? todos : [...state.todos, ...todos], // Якщо перша сторінка - оновлюємо, якщо не - додаємо нові
+			const { todos, totalPages } = await todoService.getTodos(search, status, page); // Отримуємо тудушки та загальну кількість сторінок
+			set({
+				todos, // Замінюємо весь список на нові тудушки
+				totalPages, // Оновлюємо загальну кількість сторінок
+				currentPage: page, // Оновлюємо поточну сторінку
 				isLoading: false,
-			}));
+			});
 		} catch (error) {
 			const axiosError = error as AxiosError<{ message: string }>;
 			const errorMessage =
@@ -39,7 +43,7 @@ export const useTodoStore = create<TodoStore>((set) => ({
 			alert(errorMessage);
 		}
 	},
-
+	
 	fetchTodoById: async (id: number) => {
 		set({ isLoading: true, error: null });
 		try {
