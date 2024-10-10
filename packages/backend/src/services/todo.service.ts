@@ -67,39 +67,34 @@ export default class TodoService {
 	}
 
 	async findFilteredTodos(userId?: number, filters?: TodoFilter): Promise<Todo[]> {
-		const { search, status } = filters || {};
+        const { search, status } = filters || {};
 
-		const whereConditions: any = {
-			OR: [
-				{ private: false },
-				{ userId },         
-			],
-			AND: []
-		};
+        const whereConditions: Prisma.TodoWhereInput = {
+            OR: [
+                { private: false }, 
+                { userId }          
+            ],
+        };
 
-		if (search) {
-			whereConditions.AND.push({
-				OR: [
-					{ title: { contains: search, mode: 'insensitive' } },
-					{ body: { contains: search, mode: 'insensitive' } },
-				],
-			});
-		}
+        if (search) {
+            whereConditions.AND = {
+                OR: [
+                    { title: { contains: search, mode: 'insensitive' } },
+                    { body: { contains: search, mode: 'insensitive' } }
+                ]
+            };
+        }
 
-		if (status === 'completed') {
-			whereConditions.AND.push({ completed: true });
-		} else if (status === 'private') {
-			whereConditions.AND.push({ private: true });
-		} else if (status === 'public') {
-			whereConditions.AND.push({ private: false });
-		}
+        if (status === 'completed') {
+            whereConditions.completed = true;
+        } else if (status === 'private') {
+            whereConditions.private = true;
+        } else if (status === 'public') {
+            whereConditions.private = false;
+        }
 
-		if (whereConditions.AND.length === 0) {
-			delete whereConditions.AND;
-		}
-
-		return prisma.todo.findMany({
-			where: whereConditions,
-		});
-	}
+        return prisma.todo.findMany({
+            where: whereConditions,
+        });
+    }
 }

@@ -92,6 +92,33 @@ export class TodoController {
 		res.status(204).send();
 	}
 
+	// async getFilteredTodos(req: Request, res: Response): Promise<void> {
+	// 	const userId = req.currentUser?.id;
+	// 	const { search, status } = req.query;
+
+	// 	const validStatuses: TodoFilter['status'][] = [
+	// 		'completed',
+	// 		'private',
+	// 		'public',
+	// 	];
+
+	// 	let filterStatus: TodoFilter['status'] | undefined = undefined;
+
+	// 	if (
+	// 		typeof status === 'string' &&
+	// 		validStatuses.includes(status as TodoFilter['status'])
+	// 	) {
+	// 		filterStatus = status as TodoFilter['status'];
+	// 	}
+
+	// 	const todos = await this.todoService.findFilteredTodos(userId, {
+	// 		search: search as string,
+	// 		status: filterStatus,
+	// 	});
+
+	// 	res.json(todos);
+	// }
+
 	async getFilteredTodos(req: Request, res: Response): Promise<void> {
 		const userId = req.currentUser?.id;
 		const { search, status } = req.query;
@@ -102,18 +129,16 @@ export class TodoController {
 			'public',
 		];
 
-		let filterStatus: TodoFilter['status'] | undefined = undefined;
-
-		if (
+		const filterStatus =
 			typeof status === 'string' &&
 			validStatuses.includes(status as TodoFilter['status'])
-		) {
-			filterStatus = status as TodoFilter['status'];
-		}
+				? (status as TodoFilter['status'])
+				: undefined;
 
+	
 		const todos = await this.todoService.findFilteredTodos(userId, {
-			search: search as string,
-			status: filterStatus,
+			search: search ? String(search) : '', 
+			status: filterStatus, 
 		});
 
 		res.json(todos);

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import * as styles from './todo.sort.style';
+import { FILTER_OPTIONS } from './todo.sort.options';
 
 interface TodoSortProps {
 	onFilterChange: (status: string) => void;
@@ -16,7 +17,7 @@ const TodoSort: React.FC<TodoSortProps> = ({
 
 	return (
 		<div className={styles.TodoSortBlock}>
-			{['All', 'Private', 'Public', 'Completed'].map((filter) => (
+			{FILTER_OPTIONS.map((filter) => (
 				<button
 					key={filter}
 					className={`${styles.TodoSortBtn} ${selectedFilter === filter ? styles.TodoSortBtnSelected : ''}`}
@@ -30,3 +31,4 @@ const TodoSort: React.FC<TodoSortProps> = ({
 };
 
 export default TodoSort;
+
