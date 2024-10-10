@@ -1,34 +1,35 @@
-import React, { useState } from 'react';
+import React from 'react';
 import * as styles from './todo.sort.style';
 import { FILTER_OPTIONS } from './todo.sort.options';
 
 interface TodoSortProps {
-	onFilterChange: (status: string) => void;
-	selectedFilter: string;
+    onFilterChange: (status: string) => void;
+    selectedFilter: string;
 }
 
 const TodoSort: React.FC<TodoSortProps> = ({
-	onFilterChange,
-	selectedFilter,
+    onFilterChange,
+    selectedFilter,
 }) => {
-	const handleFilterClick = (filter: string) => {
-		onFilterChange(filter);
-	};
+    const handleFilterClick = (filter: string): void => {
+        onFilterChange(filter);
+    };
 
-	return (
-		<div className={styles.TodoSortBlock}>
-			{FILTER_OPTIONS.map((filter) => (
-				<button
-					key={filter}
-					className={`${styles.TodoSortBtn} ${selectedFilter === filter ? styles.TodoSortBtnSelected : ''}`}
-					onClick={() => handleFilterClick(filter)}
-				>
-					{filter}
-				</button>
-			))}
-		</div>
-	);
+    return (
+        <div className={styles.TodoSortBlock}>
+            {FILTER_OPTIONS.map((filter: string) => (
+                <button
+                    key={filter}
+                    className={`${styles.TodoSortBtn} ${
+                        selectedFilter === filter ? styles.TodoSortBtnSelected : ''
+                    }`}
+                    onClick={() => handleFilterClick(filter)}
+                >
+                    {filter}
+                </button>
+            ))}
+        </div>
+    );
 };
 
 export default TodoSort;
-

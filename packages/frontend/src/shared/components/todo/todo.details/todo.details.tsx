@@ -6,7 +6,7 @@ import ToggleButton from '~shared/components/toggle.button/toggle.button';
 import * as styles from './todo.details.style';
 import { ROUTER_KEYS } from '~router/router.keys';
 import { AxiosError } from 'axios';
-import { Todo } from '~shared/interface/todo.interface'; // Додано
+import { Todo } from '~shared/interface/todo.interface'; 
 
 const TodoDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();

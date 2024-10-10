@@ -19,16 +19,6 @@ export interface TodoUpdate {
 	private?: boolean; 
 }
 
-// export interface TodoStore {
-// 	todos: Todo[];
-// 	isLoading: boolean;
-// 	error: string | null;
-// 	fetchTodos: (search: string, status: string) => Promise<void>;
-// 	addTodo: (todo: Omit<Todo, 'id'>) => Promise<void>;
-// 	updateTodo: (id: number, todo: Omit<Todo, 'id'>) => Promise<void>;
-// 	deleteTodo: (id: number) => Promise<void>;
-// }
-
 export interface TodoStore {
 	todos: Todo[];
 	isLoading: boolean;
