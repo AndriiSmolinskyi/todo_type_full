@@ -22,7 +22,8 @@ const TodoDesktopBtns: React.FC<TodoDesktopBtnsProps> = ({ currentPage, totalPag
 
     const renderPageNumbers = () => {
         const pages = [];
-
+    
+        // Якщо загальна кількість сторінок 3 або менше, відображаємо всі сторінки
         if (totalPages <= 3) {
             for (let i = 1; i <= totalPages; i++) {
                 pages.push(
@@ -31,34 +32,56 @@ const TodoDesktopBtns: React.FC<TodoDesktopBtnsProps> = ({ currentPage, totalPag
                     </button>
                 );
             }
-        } else {
-            if (currentPage > 1) {
-                pages.push(<button className={styles.pagesBtns} key={currentPage - 1} onClick={() => onPageChange(currentPage - 1)}>{currentPage - 1}</button>);
-            }
-
+            return pages;
+        }
+    
+        // Якщо ми на першій сторінці
+        if (currentPage === 1) {
             pages.push(
-                <button className={styles.pagesBtns} key={currentPage} onClick={() => onPageChange(currentPage)} disabled>
-                    {currentPage}
+                <button className={styles.pagesBtns} key={1} onClick={() => onPageChange(1)} disabled>
+                    1
+                </button>,
+                <button className={styles.pagesBtns} key={2} onClick={() => onPageChange(2)}>
+                    2
+                </button>,
+                <button className={styles.pagesBtns} key={3} onClick={() => onPageChange(3)}>
+                    3
                 </button>
             );
-
-            if (currentPage < totalPages) {
-                pages.push(<button className={styles.pagesBtns} key={currentPage + 1} onClick={() => onPageChange(currentPage + 1)}>{currentPage + 1}</button>);
-            }
         }
-
-        if (currentPage > 2) {
-            pages.unshift(<span className={styles.pagesBtns} key="ellipsis-start">...</span>);
-            pages.unshift(<button className={styles.pagesBtns} key={1} onClick={() => onPageChange(1)}>1</button>);
+        // Якщо ми на останній сторінці
+        else if (currentPage === totalPages) {
+            pages.push(
+                <button className={styles.pagesBtns} key={totalPages - 2} onClick={() => onPageChange(totalPages - 2)}>
+                    {totalPages - 2}
+                </button>,
+                <button className={styles.pagesBtns} key={totalPages - 1} onClick={() => onPageChange(totalPages - 1)}>
+                    {totalPages - 1}
+                </button>,
+                <button className={styles.pagesBtns} key={totalPages} onClick={() => onPageChange(totalPages)} disabled>
+                    {totalPages}
+                </button>
+            );
         }
-        
-        if (currentPage < totalPages - 1) {
-            pages.push(<span className={styles.pagesBtns} key="ellipsis-end">...</span>);
-            pages.push(<button key={totalPages} className={styles.pagesBtns} onClick={() => onPageChange(totalPages)}>{totalPages}</button>);
+        // Якщо ми на будь-якій іншій сторінці
+        else {
+            pages.push(
+                <button className={styles.pagesBtns} key={currentPage - 1} onClick={() => onPageChange(currentPage - 1)}>
+                    {currentPage - 1}
+                </button>,
+                <button className={styles.pagesBtns} key={currentPage} onClick={() => onPageChange(currentPage)} disabled>
+                    {currentPage}
+                </button>,
+                <button className={styles.pagesBtns} key={currentPage + 1} onClick={() => onPageChange(currentPage + 1)}>
+                    {currentPage + 1}
+                </button>
+            );
         }
-
+    
         return pages;
     };
+    
+
 
     return (
         <div className={styles.pagesBlockBtns}>

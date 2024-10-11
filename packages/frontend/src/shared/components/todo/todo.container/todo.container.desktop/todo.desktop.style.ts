@@ -54,6 +54,12 @@ export const pagesBtns = css`
         cursor: pointer;
         color: ${colors.blue};
     }
+
+	&[disabled] {
+        background-color: ${colors.white};
+        color: ${colors.blue};
+        cursor: default;
+    }
 `
 export const pagesGoBtns = css`
 	 background-color: ${colors.blue};
@@ -68,5 +74,7 @@ export const pagesGoBtns = css`
         cursor: pointer;
         color: ${colors.blue};
     }
+
+	
 `
 
