@@ -33,3 +33,40 @@ export const todoDesktopBtns = css`
 	justify-content: space-around;
 	align-items: center;
 `;
+
+export const pagesBlockBtns = css`
+	display: flex;
+	justify-content: center;
+	margin-top: 40px;
+	gap: 10px;
+`
+
+export const pagesBtns = css`
+	 background-color: ${colors.blue};
+    border: none;
+    border-radius: 5px;
+    color: ${colors.white};
+    padding: 5px 10px;
+	border: 1px solid ${colors.blue};
+
+    &:hover{
+        background-color: ${colors.white};
+        cursor: pointer;
+        color: ${colors.blue};
+    }
+`
+export const pagesGoBtns = css`
+	 background-color: ${colors.blue};
+    border: none;
+    border-radius: 5px;
+    color: ${colors.white};
+    padding: 5px 10px;
+	border: 1px solid ${colors.blue};
+
+    &:hover{
+        background-color: ${colors.white};
+        cursor: pointer;
+        color: ${colors.blue};
+    }
+`
+

@@ -6,13 +6,25 @@ class TodoService extends HttpService {
 		super();
 	}
 
+	// public async getTodos(
+	// 	search: string = '',
+	// 	status: string = '',
+	// ): Promise<Todo[]> {
+	// 	return this.get<Todo[]>(
+	// 		`todos/getAllTodos?search=${search}&status=${status}`,
+	// 		true,
+	// 	);
+	// }
+
 	public async getTodos(
 		search: string = '',
 		status: string = '',
-	): Promise<Todo[]> {
-		return this.get<Todo[]>(
-			`todos/getAllTodos?search=${search}&status=${status}`,
-			true,
+		page: number = 1
+	): Promise<{ todos: Todo[], totalPages: number }> { // Додаємо загальну кількість сторінок
+		const limit = 8;
+		return this.get<{ todos: Todo[], totalPages: number }>(
+			`todos/getAllTodos?page=${page}&limit=${limit}&status=${encodeURIComponent(status)}&search=${encodeURIComponent(search)}`,
+			true
 		);
 	}
 

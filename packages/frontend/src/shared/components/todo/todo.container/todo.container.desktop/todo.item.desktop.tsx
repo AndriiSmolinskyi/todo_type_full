@@ -5,17 +5,23 @@ import { todoButtons } from '../../todo.buttons.style';
 import ToggleButton from '~shared/components/toggle.button/toggle.button';
 
 const TodoItemDesktop: React.FC<TodoItemProps> = ({ todo, onAction }) => {
+  const isEmpty = todo.id === 0; 
+  
   return (
     <>
-      <div>{todo.title}</div>
-      <div>{todo.body}</div>
+      <div>{isEmpty ? '' : todo.title}</div>
+      <div>{isEmpty ? '' : todo.body}</div>
       <div className={styles.todoDesktopBtns}>
-        <button className={todoButtons} onClick={() => onAction(todo.id, 'view')}>View</button>
-        <button className={todoButtons} onClick={() => onAction(todo.id, 'delete')}>Delete</button>
-        <ToggleButton
-          checked={todo.completed!}
-          onChange={() => onAction(todo.id, 'toggle', todo.completed)}
-        />
+        {!isEmpty && (
+          <>
+            <button className={todoButtons} onClick={() => onAction(todo.id, 'view')}>View</button>
+            <button className={todoButtons} onClick={() => onAction(todo.id, 'delete')}>Delete</button>
+            <ToggleButton
+              checked={todo.completed!}
+              onChange={() => onAction(todo.id, 'toggle', todo.completed)}
+            />
+          </>
+        )}
       </div>
     </>
   );

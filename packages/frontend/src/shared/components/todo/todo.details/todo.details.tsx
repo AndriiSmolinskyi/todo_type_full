@@ -6,15 +6,25 @@ import ToggleButton from '~shared/components/toggle.button/toggle.button';
 import * as styles from './todo.details.style';
 import { ROUTER_KEYS } from '~router/router.keys';
 import { AxiosError } from 'axios';
+import { Todo } from '~shared/interface/todo.interface'; 
 
 const TodoDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { todos, updateTodo, deleteTodo } = useTodoStore();
-  const [selectedTodo, setSelectedTodo] = useState(() =>
+  const { todos, fetchTodoById, updateTodo, deleteTodo } = useTodoStore();
+  const [selectedTodo, setSelectedTodo] = useState<Todo | undefined>(
     todos.find((t) => t.id === Number(id)),
   );
   const [isEditOpen, setEditOpen] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const loadTodo = async () => {
+      if (!selectedTodo && id) {
+        await fetchTodoById(Number(id));
+      }
+    };
+    loadTodo();
+  }, [id, selectedTodo, fetchTodoById]);
 
   useEffect(() => {
     const todo = todos.find((t) => t.id === Number(id));
@@ -60,7 +70,7 @@ const TodoDetails: React.FC = () => {
     }
   };
 
-  if (!selectedTodo) return <p>Todo not found!</p>;
+  if (!selectedTodo) return <p>Loading...</p>;
 
   return (
     <div className={styles.todoDetails}>

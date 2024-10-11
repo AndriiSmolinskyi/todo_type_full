@@ -1,6 +1,9 @@
 import { Request, Response } from 'express';
 import TodoService from '@/services/todo.service';
 import { TodoFilter } from '@/interface/todo.interface';
+import { PrismaClient, Prisma, Todo } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 export class TodoController {
 	constructor(public todoService: TodoService) {}
@@ -95,27 +98,50 @@ export class TodoController {
 	async getFilteredTodos(req: Request, res: Response): Promise<void> {
 		const userId = req.currentUser?.id;
 		const { search, status } = req.query;
-
-		const validStatuses: TodoFilter['status'][] = [
-			'completed',
-			'private',
-			'public',
-		];
-
+	  
+		const validStatuses: TodoFilter['status'][] = ['completed', 'private', 'public'];
+	  
 		const filterStatus =
-			typeof status === 'string' &&
-			validStatuses.includes(status as TodoFilter['status'])
-				? (status as TodoFilter['status'])
-				: undefined;
-
-	
+		  typeof status === 'string' &&
+		  validStatuses.includes(status as TodoFilter['status'])
+			? (status as TodoFilter['status'])
+			: undefined;
+	  
+		// Отримуємо відфільтровані тудушки
 		const todos = await this.todoService.findFilteredTodos(userId, {
-			search: search ? String(search) : '', 
-			status: filterStatus, 
+		  search: search ? String(search) : '',
+		  status: filterStatus,
+		  skip: req.pagination?.skip || 0,
+		  take: req.pagination?.limit || 8,
 		});
-
-		res.json(todos);
-	}
+	  
+		// Логіка для підрахунку загальної кількості тудушок (щоб визначити кількість сторінок)
+		const totalTodos = await prisma.todo.count({
+		  where: {
+			OR: [{ private: false }, { userId }],
+			AND: search
+			  ? {
+				  OR: [
+					{ title: { contains: search as string, mode: 'insensitive' } },
+					{ body: { contains: search as string, mode: 'insensitive' } },
+				  ],
+				}
+			  : {},
+			...(filterStatus === 'completed' && { completed: true }),
+			...(filterStatus === 'private' && { private: true }),
+			...(filterStatus === 'public' && { private: false }),
+		  },
+		});
+	  
+		// Розрахунок загальної кількості сторінок
+		const totalPages = Math.ceil(totalTodos / (req.pagination?.limit || 8));
+	  
+		// Відповідь з тудушками та загальною кількістю сторінок
+		res.json({
+		  todos,
+		  totalPages, // Додаємо інформацію про кількість сторінок
+		});
+	  }
 }
 
 const todoController = new TodoController(new TodoService());

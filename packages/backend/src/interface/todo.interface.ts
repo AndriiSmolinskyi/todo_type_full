@@ -15,4 +15,6 @@ export interface UpdateTodoInput {
 export interface TodoFilter {
 	search?: string;
 	status?: 'completed' | 'private' | 'public';
+	skip?: number;
+	take?: number;
 }

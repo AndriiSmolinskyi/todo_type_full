@@ -67,34 +67,35 @@ export default class TodoService {
 	}
 
 	async findFilteredTodos(userId?: number, filters?: TodoFilter): Promise<Todo[]> {
-        const { search, status } = filters || {};
+		const { search, status, skip, take } = filters || {};
+	
+		const whereConditions: Prisma.TodoWhereInput = {
+		  OR: [{ private: false }, { userId }],
+		};
+	
+		if (search) {
+		  whereConditions.AND = {
+			OR: [
+			  { title: { contains: search, mode: 'insensitive' } },
+			  { body: { contains: search, mode: 'insensitive' } },
+			],
+		  };
+		}
+	
+		if (status === 'completed') {
+		  whereConditions.completed = true;
+		} else if (status === 'private') {
+		  whereConditions.private = true;
+		} else if (status === 'public') {
+		  whereConditions.private = false;
+		}
+	
+		return prisma.todo.findMany({
+		  where: whereConditions,
+		  skip, 
+		  take,
+		});
+	  }
 
-        const whereConditions: Prisma.TodoWhereInput = {
-            OR: [
-                { private: false }, 
-                { userId }          
-            ],
-        };
-
-        if (search) {
-            whereConditions.AND = {
-                OR: [
-                    { title: { contains: search, mode: 'insensitive' } },
-                    { body: { contains: search, mode: 'insensitive' } }
-                ]
-            };
-        }
-
-        if (status === 'completed') {
-            whereConditions.completed = true;
-        } else if (status === 'private') {
-            whereConditions.private = true;
-        } else if (status === 'public') {
-            whereConditions.private = false;
-        }
-
-        return prisma.todo.findMany({
-            where: whereConditions,
-        });
-    }
+	
 }
