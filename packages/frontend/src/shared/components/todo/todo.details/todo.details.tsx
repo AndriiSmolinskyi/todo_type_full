@@ -70,6 +70,12 @@ const TodoDetails: React.FC = () => {
     }
   };
 
+  const navigateBack = () => {
+    const params = new URLSearchParams(window.location.search);
+    const page = params.get('page') || '1';
+    navigate(`${ROUTER_KEYS.HOME}?page=${page}`);
+  };
+
   if (!selectedTodo) return <p>Loading...</p>;
 
   return (
@@ -100,7 +106,7 @@ const TodoDetails: React.FC = () => {
       <div className={styles.todoDetailsButtonsBlock}>
         <button className={styles.todoDetailsButtons} onClick={openEditModal}>Edit</button>
         <button className={styles.todoDetailsButtons} onClick={deleteCurrentTodo}>Delete</button>
-        <button className={styles.todoDetailsButtons} onClick={() => navigate(ROUTER_KEYS.HOME)}>Back</button>
+        <button className={styles.todoDetailsButtons} onClick={navigateBack}>Back</button>
       </div>
 
       {isEditOpen && (

@@ -102,10 +102,21 @@ const TodoContainer: React.FC = () => {
 		id: number,
 		action: 'toggle' | 'delete' | 'view',
 		completed?: boolean,
-	): void => {
-		actionHandlers[action](id, completed);
-	};
-
+	  ): void => {
+		if (action === 'delete') {
+		  deleteTodo(id).then(() => {
+			if (todos.length === 1 && page > 1) {
+			  setPage(page - 1); 
+			} else {
+			  fetchFilteredTodos(page); 
+			}
+		  });
+		} else if (action === 'view') {
+		  navigate(`${ROUTER_KEYS.TODOS.replace(':id', id.toString())}?page=${page}`);
+		} else {
+		  actionHandlers[action](id, completed);
+		}
+	  };
 	const isDesktop = useMediaQuery({ minWidth: 1024 });
 	const isTablet = useMediaQuery({ minWidth: 581, maxWidth: 1023 });
 	const isMobile = useMediaQuery({ maxWidth: 580 });
