@@ -33,10 +33,6 @@ yarn global add tslint typescript
 
 link: https://stackoverflow.com/questions/36910592/enabling-eslint-on-typescript-files/64175035#64175035
 
-## Time-frames
-
-Time-frames of the test task is highly important! You have only 2 weeks for the task below, please use this time wisely. Good luck!
-
 ## Required features
 
 1. **Todo list - CRUD operations on backend**;
