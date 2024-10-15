@@ -1,4 +1,3 @@
-# CGS Test project
 
 ## Project main stack
 
